@@ -1,0 +1,16 @@
+{
+  "name": "neumorphic-soft",
+  "seed_range": { "w": [0.55, 0.8], "x": [0.35, 0.75], "y": [-0.25, 0.25], "z": [-0.25, 0.25] },
+  "design_system": {
+    "color": { "palette_type": "pastel-mono", "contrast_strategy": "soft", "primary_hue_range": [190, 225] },
+    "typography": { "heading_weight": 500, "body_weight": 400, "letter_spacing": "0", "line_height": 1.6 },
+    "spacing": { "density": "balanced", "base_multiplier": 1.25 },
+    "shape": { "border_radius": { "small": 12, "medium": 18, "large": 24 }, "border_usage": "shadow-separated" },
+    "elevation": { "shadow_style": "inner and outer soft", "depth_cues": "tactile" },
+    "motion": { "easing": "phi", "duration_scale": 1.0, "philosophy": "calm tactile response" }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["clean", "tactile", "quiet"], "genre": "neumorphic", "personality_traits": ["soft", "orderly", "approachable"] },
+    "visual_language": { "complexity": "medium", "ornamentation": "shadow", "whitespace_usage": "balanced", "texture_usage": "matte surface" }
+  }
+}

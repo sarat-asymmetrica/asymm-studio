@@ -1,0 +1,16 @@
+{
+  "name": "wabi-sabi",
+  "seed_range": { "w": [0.82, 1.0], "x": [-0.22, 0.22], "y": [-0.22, 0.22], "z": [-0.22, 0.22] },
+  "design_system": {
+    "color": { "palette_type": "earth-tones", "contrast_strategy": "soft", "primary_hue_range": [20, 45] },
+    "typography": { "heading_weight": 300, "body_weight": 400, "letter_spacing": "0.02em", "line_height": 1.8 },
+    "spacing": { "density": "spacious", "base_multiplier": 1.618 },
+    "shape": { "border_radius": { "small": 2, "medium": 4, "large": 8 }, "border_usage": "minimal" },
+    "elevation": { "shadow_style": "diffuse", "depth_cues": "subtle" },
+    "motion": { "easing": "apana", "duration_scale": 1.4, "philosophy": "gentle organic settling" }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["contemplative", "warm", "imperfect"], "genre": "wabi-sabi", "personality_traits": ["humble", "aged", "natural"] },
+    "visual_language": { "complexity": "low", "ornamentation": "none", "whitespace_usage": "generous", "texture_usage": "paper grain" }
+  }
+}

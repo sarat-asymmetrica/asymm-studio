@@ -1,0 +1,16 @@
+{
+  "name": "modernist-strict",
+  "seed_range": { "w": [-0.2, 0.2], "x": [0.7, 1.0], "y": [0.25, 0.6], "z": [-0.15, 0.15] },
+  "design_system": {
+    "color": { "palette_type": "swiss-limited", "contrast_strategy": "strong", "primary_hue_range": [210, 235] },
+    "typography": { "heading_weight": 600, "body_weight": 400, "letter_spacing": "0", "line_height": 1.5 },
+    "spacing": { "density": "balanced", "base_multiplier": 1.0 },
+    "shape": { "border_radius": { "small": 2, "medium": 2, "large": 4 }, "border_usage": "systematic" },
+    "elevation": { "shadow_style": "minimal", "depth_cues": "grid hierarchy" },
+    "motion": { "easing": "easeInOut", "duration_scale": 0.92, "philosophy": "measured systematic transition" }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["precise", "systematic", "restrained"], "genre": "modernist", "personality_traits": ["rational", "clear", "disciplined"] },
+    "visual_language": { "complexity": "medium", "ornamentation": "none", "whitespace_usage": "gridded", "texture_usage": "none" }
+  }
+}

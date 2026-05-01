@@ -1,0 +1,37 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+
+const regions = [
+  ['Wabi-sabi', '#f8f5ee', '#181613', '#b83f31'],
+  ['Neumorphic-soft', '#eef3f0', '#1e2a27', '#6e8f83'],
+  ['Brutal-raw', '#f4f0e8', '#111111', '#ff4b2f'],
+  ['Glass-ethereal', '#eef7fb', '#17232b', '#55a7c8'],
+  ['Modernist-strict', '#ffffff', '#101010', '#295f9a'],
+  ['Indie-craft', '#fff6e6', '#2b201b', '#d05b2f'],
+  ['Research-paper', '#fbfbf7', '#202020', '#5f6f87'],
+  ['Ananta-warm', '#fff4df', '#0f1b18', '#a66f14']
+];
+---
+
+<LabLayout title="Aesthetic Engine">
+  <section>
+    <p class="eyebrow">Design DNA</p>
+    <h1>Aesthetic Engine</h1>
+    <p>Eight disjoint quaternion regions generate color, typography, motion, geometry, spacing, and component variation.</p>
+  </section>
+  <section class="dna-grid" aria-label="Aesthetic regions">
+    {regions.map(([name, background, ink, accent]) => (
+      <article class="region-card" style={`background:${background}; color:${ink}; border-color:${accent}`}>
+        <div>
+          <h2>{name}</h2>
+          <p style={`color:${ink}`}>Deterministic tokens from seed-space position.</p>
+        </div>
+        <div class="swatches" aria-label={`${name} palette`}>
+          <span style={`background:${background}`}></span>
+          <span style={`background:${ink}`}></span>
+          <span style={`background:${accent}`}></span>
+        </div>
+      </article>
+    ))}
+  </section>
+</LabLayout>

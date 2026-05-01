@@ -1,0 +1,16 @@
+{
+  "name": "research-paper",
+  "seed_range": { "w": [-0.45, -0.1], "x": [-0.25, 0.15], "y": [0.15, 0.45], "z": [0.65, 1.0] },
+  "design_system": {
+    "color": { "palette_type": "paper-mono", "contrast_strategy": "editorial", "primary_hue_range": [210, 225] },
+    "typography": { "heading_weight": 600, "body_weight": 400, "letter_spacing": "0", "line_height": 1.72 },
+    "spacing": { "density": "reading", "base_multiplier": 1.2 },
+    "shape": { "border_radius": { "small": 0, "medium": 2, "large": 2 }, "border_usage": "minimal" },
+    "elevation": { "shadow_style": "none", "depth_cues": "typographic hierarchy" },
+    "motion": { "easing": "none", "duration_scale": 0.5, "philosophy": "stillness for reading" }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["academic", "serious", "legible"], "genre": "research-paper", "personality_traits": ["credible", "quiet", "precise"] },
+    "visual_language": { "complexity": "low", "ornamentation": "citations and rules", "whitespace_usage": "reading optimized", "texture_usage": "none" }
+  }
+}

@@ -1,0 +1,14 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import CalibrationRitual from '../../../../../packages/asymm-bio-resonance/components/CalibrationRitual.svelte';
+---
+
+<LabLayout title="Calibration Ritual">
+  <section>
+    <p class="eyebrow">Bio-Resonance</p>
+    <h1>Calibration</h1>
+  </section>
+  <div class="demo-panel">
+    <CalibrationRitual client:load />
+  </div>
+</LabLayout>

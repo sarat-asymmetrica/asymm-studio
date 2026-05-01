@@ -1,0 +1,23 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+
+const components = ['Hero', 'Navbar', 'Card', 'Button', 'Modal', 'Pricing', 'Testimonial', 'Gallery', 'Code Block', 'Data Table', 'Timeline', 'Command Bar'];
+---
+
+<LabLayout title="Components">
+  <section>
+    <p class="eyebrow">Variation Catalog</p>
+    <h1>Components</h1>
+    <p>Structural components stay stable while seeded CSS variables change their presence.</p>
+  </section>
+  <section class="component-grid" aria-label="Seeded component samples">
+    {components.map((component, index) => (
+      <article class="component-card" style={`border-color:${index % 3 === 0 ? '#006b5f' : index % 3 === 1 ? '#b83f31' : '#295f9a'}`}>
+        <p class="eyebrow">{String(index + 1).padStart(2, '0')}</p>
+        <h2>{component}</h2>
+        <p>Region-aware palette, radius, shadow, texture, and motion variables.</p>
+        <a class="button-link" href="/aesthetic-engine/">View DNA</a>
+      </article>
+    ))}
+  </section>
+</LabLayout>

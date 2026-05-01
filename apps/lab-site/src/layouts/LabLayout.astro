@@ -1,0 +1,37 @@
+---
+import '../styles/lab.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Asymm Studio</title>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">Asymm Studio</a>
+        <nav class="nav" aria-label="Primary">
+          <a href="/aesthetic-engine/">Aesthetic Engine</a>
+          <a href="/aesthetic-engine/components/">Components</a>
+          <a href="/bio-resonance/calibration/">Calibration</a>
+          <a href="/bio-resonance/gaze-cursor/">Gaze</a>
+          <a href="/bio-resonance/stress-adaptive/">Reader</a>
+          <a href="/manifesto/">Manifesto</a>
+        </nav>
+      </header>
+      <main class="main">
+        <slot />
+      </main>
+      <footer class="site-footer">Bio-resonance demos process camera frames inside the browser tab.</footer>
+    </div>
+  </body>
+</html>

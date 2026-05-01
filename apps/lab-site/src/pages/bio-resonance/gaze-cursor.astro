@@ -1,0 +1,14 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import GazeCursor from '../../../../../packages/asymm-bio-resonance/components/GazeCursor.svelte';
+---
+
+<LabLayout title="Gaze Cursor">
+  <section>
+    <p class="eyebrow">Bio-Resonance</p>
+    <h1>Gaze Cursor</h1>
+  </section>
+  <div class="demo-panel">
+    <GazeCursor client:load />
+  </div>
+</LabLayout>

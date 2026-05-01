@@ -1,0 +1,16 @@
+{
+  "name": "indie-craft",
+  "seed_range": { "w": [0.1, 0.45], "x": [-0.2, 0.25], "y": [-0.85, -0.45], "z": [0.25, 0.65] },
+  "design_system": {
+    "color": { "palette_type": "warm-varied", "contrast_strategy": "soft", "primary_hue_range": [10, 65] },
+    "typography": { "heading_weight": 700, "body_weight": 400, "letter_spacing": "0.01em", "line_height": 1.65 },
+    "spacing": { "density": "spacious", "base_multiplier": 1.35 },
+    "shape": { "border_radius": { "small": 6, "medium": 10, "large": 16 }, "border_usage": "playful" },
+    "elevation": { "shadow_style": "handmade offset", "depth_cues": "layered paper" },
+    "motion": { "easing": "prana", "duration_scale": 1.08, "philosophy": "warm responsive bounce" }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["warm", "handmade", "playful"], "genre": "indie-craft", "personality_traits": ["human", "curious", "informal"] },
+    "visual_language": { "complexity": "medium", "ornamentation": "small marks", "whitespace_usage": "relaxed", "texture_usage": "paper and ink" }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "asymm-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --passWithNoTests",
+    "verify": "node scripts/verify-privacy.mjs && node scripts/verify-a11y.mjs && node scripts/verify-forbidden.mjs",
+    "verify:privacy": "node scripts/verify-privacy.mjs",
+    "verify:a11y": "node scripts/verify-a11y.mjs",
+    "verify:forbidden": "node scripts/verify-forbidden.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.1"
+  }
+}

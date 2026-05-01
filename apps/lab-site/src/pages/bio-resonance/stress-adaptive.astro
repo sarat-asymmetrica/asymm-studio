@@ -1,0 +1,14 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import StressAdaptiveReader from '../../../../../packages/asymm-bio-resonance/components/StressAdaptiveReader.svelte';
+---
+
+<LabLayout title="Stress-Adaptive Reader">
+  <section>
+    <p class="eyebrow">Bio-Resonance</p>
+    <h1>Reader</h1>
+  </section>
+  <div class="demo-panel">
+    <StressAdaptiveReader client:load />
+  </div>
+</LabLayout>
