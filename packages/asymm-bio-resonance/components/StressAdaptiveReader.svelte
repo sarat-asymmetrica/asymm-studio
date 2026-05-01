@@ -124,8 +124,8 @@
       <p class="error" role="alert">{cameraError}</p>
     {/if}
     <div class="actions">
-      <button type="button" on:click={start} aria-label="Start stress adaptive reader" disabled={running}>Start</button>
-      <button type="button" on:click={stop} aria-label="Stop stress adaptive reader" disabled={!running}>Stop</button>
+      <button type="button" onclick={start} aria-label="Start stress adaptive reader" disabled={running}>Start</button>
+      <button type="button" onclick={stop} aria-label="Stop stress adaptive reader" disabled={!running}>Stop</button>
     </div>
   </article>
   <footer>{PRIVACY_FOOTER} {detectorLabel}.</footer>
@@ -148,13 +148,42 @@
 
   .preview-shell {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     min-height: 320px;
     border-radius: 8px;
     background: #312d28;
   }
 
+  .preview-shell::before,
+  .preview-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .preview-shell::before {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 48% 46%, rgb(255 253 248 / 0.14), transparent 0 18%, transparent 34%),
+      radial-gradient(circle at 28% 70%, rgb(0 107 95 / 0.2), transparent 0 5%, transparent 9%),
+      radial-gradient(circle at 76% 34%, rgb(168 76 61 / 0.18), transparent 0 4%, transparent 8%);
+    animation: signal-breathe 2600ms ease-in-out infinite;
+  }
+
+  .preview-shell::after {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 20% 28%, rgb(255 253 248 / 0.28), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 58% 66%, rgb(255 253 248 / 0.22), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 82% 42%, rgb(255 253 248 / 0.2), transparent 0 2px, transparent 5px);
+    animation: signal-drift 5200ms ease-in-out infinite;
+  }
+
   video {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -172,6 +201,7 @@
     color: #fffdf8;
     font-size: 0.78rem;
     font-weight: 800;
+    z-index: 2;
   }
 
   .mode-pill.live {
@@ -206,9 +236,12 @@
     animation-play-state: paused;
   }
 
-  .eyebrow {
+  .adaptive-reader .eyebrow {
     margin: 0 0 10px;
-    color: #6d5f4c;
+    width: fit-content;
+    padding: 2px 0;
+    background-color: #fff7ec;
+    color: #2f261b;
     font-size: 0.78rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -217,12 +250,14 @@
   h2 {
     max-width: 13ch;
     margin: 0 0 20px;
+    color: #1f1b17;
     font-size: clamp(2rem, 4vw, 3.1rem);
     line-height: 1.02;
   }
 
   p {
     max-width: var(--measure);
+    color: #3f3529;
     font-size: var(--font-size);
     line-height: var(--line-height);
     transition: max-width 360ms var(--reader-ease), font-size 360ms var(--reader-ease), line-height 360ms var(--reader-ease);
@@ -362,6 +397,14 @@
     100% { background-position: -144% 0; }
   }
 
+  @keyframes signal-breathe {
+    50% { transform: scale(1.08); opacity: 0.68; }
+  }
+
+  @keyframes signal-drift {
+    50% { transform: translate3d(8px, -10px, 0); opacity: 0.72; }
+  }
+
   @keyframes margin-breathe {
     50% { transform: translateX(8px); opacity: 0.52; }
   }
@@ -386,6 +429,11 @@
     }
 
     .preview-shell {
+      animation: none;
+    }
+
+    .preview-shell::before,
+    .preview-shell::after {
       animation: none;
     }
 

@@ -28,6 +28,16 @@
     'research-paper': { paper: '#fbfbf7', surface: '#ffffff', ink: '#1d1d1d', muted: '#4c5662', line: '#d9d9d2', accent: '#43546d' },
     'ananta-warm': { paper: '#fff1d8', surface: '#fff9ee', ink: '#10201b', muted: '#526052', line: '#e5c894', accent: '#7b4d05' }
   };
+  const darkPalettes: Record<AestheticRegionName, RegionPalette> = {
+    'wabi-sabi': { paper: '#17120e', surface: '#251c16', ink: '#f8eadb', muted: '#cdbba8', line: '#5b4434', accent: '#e2a15b' },
+    'neumorphic-soft': { paper: '#121a18', surface: '#1c2925', ink: '#ecf8f4', muted: '#b3c9c1', line: '#39514a', accent: '#9bd0c0' },
+    'brutal-raw': { paper: '#050505', surface: '#141414', ink: '#ffffff', muted: '#d2d2d2', line: '#ffffff', accent: '#ff6247' },
+    'glass-ethereal': { paper: '#0c1a22', surface: '#152a34', ink: '#ecfbff', muted: '#b7d4dd', line: '#315a69', accent: '#8fd6f0' },
+    'modernist-strict': { paper: '#111111', surface: '#1d1d1d', ink: '#f7f7f7', muted: '#c8c8c8', line: '#555555', accent: '#9ec6f1' },
+    'indie-craft': { paper: '#1d130e', surface: '#2a1d15', ink: '#fff0dc', muted: '#d4bda5', line: '#5b3e2d', accent: '#f2a070' },
+    'research-paper': { paper: '#141414', surface: '#202020', ink: '#f4f1e9', muted: '#c2c7d0', line: '#4a4a43', accent: '#b8c3dc' },
+    'ananta-warm': { paper: '#15130b', surface: '#262010', ink: '#fff2d4', muted: '#d5c79f', line: '#5c4a1e', accent: '#f0bd49' }
+  };
 
   let offset = $state(0);
   const activeDate: Date = $derived(new Date(Date.now() + offset * dayMs));
@@ -73,18 +83,22 @@
 
   function applyPalette(): void {
     const root = document.documentElement;
-    root.style.setProperty('--paper', palette.paper);
-    root.style.setProperty('--surface', palette.surface);
-    root.style.setProperty('--surface-soft', palette.paper);
-    root.style.setProperty('--ink', palette.ink);
-    root.style.setProperty('--muted', palette.muted);
-    root.style.setProperty('--line', palette.line);
-    root.style.setProperty('--green', palette.accent);
-    root.style.setProperty('--asymm-bg', palette.paper);
-    root.style.setProperty('--asymm-surface', palette.surface);
-    root.style.setProperty('--asymm-text', palette.ink);
-    root.style.setProperty('--asymm-muted', palette.muted);
-    root.style.setProperty('--asymm-accent', palette.accent);
+    const mode = root.dataset.colorMode;
+    const useDark = mode === 'dark' || (mode !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const activePalette = useDark ? darkPalettes[region.name] : palette;
+    root.dataset.region = region.name;
+    root.style.setProperty('--paper', activePalette.paper);
+    root.style.setProperty('--surface', activePalette.surface);
+    root.style.setProperty('--surface-soft', activePalette.paper);
+    root.style.setProperty('--ink', activePalette.ink);
+    root.style.setProperty('--muted', activePalette.muted);
+    root.style.setProperty('--line', activePalette.line);
+    root.style.setProperty('--green', activePalette.accent);
+    root.style.setProperty('--asymm-bg', activePalette.paper);
+    root.style.setProperty('--asymm-surface', activePalette.surface);
+    root.style.setProperty('--asymm-text', activePalette.ink);
+    root.style.setProperty('--asymm-muted', activePalette.muted);
+    root.style.setProperty('--asymm-accent', activePalette.accent);
   }
 
   $effect(() => {

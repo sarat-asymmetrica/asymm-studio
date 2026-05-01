@@ -208,8 +208,8 @@
     {/if}
 
     <div class="actions">
-      <button type="button" on:click={beginRitual} aria-label="Start calibration ritual" disabled={running}>Start</button>
-      <button type="button" on:click={stopRitual} aria-label="Stop calibration ritual" disabled={!running}>Stop</button>
+      <button type="button" onclick={beginRitual} aria-label="Start calibration ritual" disabled={running}>Start</button>
+      <button type="button" onclick={stopRitual} aria-label="Stop calibration ritual" disabled={!running}>Stop</button>
     </div>
   </div>
 
@@ -239,11 +239,40 @@
 
   .preview-shell {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     background: linear-gradient(135deg, #24211d, #585044);
   }
 
+  .preview-shell::before,
+  .preview-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .preview-shell::before {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 45% 48%, rgb(255 253 248 / 0.18), transparent 0 18%, transparent 34%),
+      radial-gradient(circle at 22% 68%, rgb(0 107 95 / 0.24), transparent 0 5%, transparent 9%),
+      radial-gradient(circle at 72% 32%, rgb(184 63 49 / 0.18), transparent 0 4%, transparent 8%);
+    animation: signal-breathe 2600ms ease-in-out infinite;
+  }
+
+  .preview-shell::after {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 18% 22%, rgb(255 253 248 / 0.32), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 62% 64%, rgb(255 253 248 / 0.24), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 82% 40%, rgb(255 253 248 / 0.2), transparent 0 2px, transparent 5px);
+    animation: signal-drift 5200ms ease-in-out infinite;
+  }
+
   .camera-preview {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -261,6 +290,7 @@
     color: #fffdf8;
     font-size: 0.78rem;
     font-weight: 800;
+    z-index: 2;
   }
 
   .mode-pill.live {
@@ -506,6 +536,14 @@
     100% { background-position: -144% 0, 0 0; }
   }
 
+  @keyframes signal-breathe {
+    50% { transform: scale(1.08); opacity: 0.68; }
+  }
+
+  @keyframes signal-drift {
+    50% { transform: translate3d(8px, -10px, 0); opacity: 0.72; }
+  }
+
   @media (max-width: 720px) {
     .calibration-ritual {
       grid-template-columns: 1fr;
@@ -516,6 +554,8 @@
   @media (prefers-reduced-motion: reduce) {
     .gaze-dot { animation: none; }
     .preview-shell { animation: none; }
+    .preview-shell::before,
+    .preview-shell::after { animation: none; }
     .tracked-dot { transition: none; }
     .progress span { transition: none; }
   }

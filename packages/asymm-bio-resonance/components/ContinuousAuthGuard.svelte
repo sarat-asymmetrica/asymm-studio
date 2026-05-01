@@ -132,8 +132,8 @@
       <p class="error" role="alert">{cameraError}</p>
     {/if}
     <div class="actions">
-      <button type="button" on:click={start} aria-label="Start continuous authentication" disabled={running}>Start</button>
-      <button type="button" on:click={stop} aria-label="Stop continuous authentication" disabled={!running}>Stop</button>
+      <button type="button" onclick={start} aria-label="Start continuous authentication" disabled={running}>Start</button>
+      <button type="button" onclick={stop} aria-label="Stop continuous authentication" disabled={!running}>Stop</button>
     </div>
   </aside>
 
@@ -156,13 +156,42 @@
 
   .preview-shell {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     min-height: 360px;
     border-radius: 8px;
     background: #252b33;
   }
 
+  .preview-shell::before,
+  .preview-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .preview-shell::before {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 48% 46%, rgb(247 242 232 / 0.14), transparent 0 18%, transparent 34%),
+      radial-gradient(circle at 26% 72%, rgb(80 184 168 / 0.2), transparent 0 5%, transparent 9%),
+      radial-gradient(circle at 76% 34%, rgb(247 242 232 / 0.18), transparent 0 4%, transparent 8%);
+    animation: signal-breathe 2600ms ease-in-out infinite;
+  }
+
+  .preview-shell::after {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 20% 26%, rgb(247 242 232 / 0.28), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 60% 66%, rgb(247 242 232 / 0.22), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 84% 44%, rgb(247 242 232 / 0.2), transparent 0 2px, transparent 5px);
+    animation: signal-drift 5200ms ease-in-out infinite;
+  }
+
   video {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -180,6 +209,7 @@
     color: #f7f2e8;
     font-size: 0.78rem;
     font-weight: 800;
+    z-index: 2;
   }
 
   .mode-pill.live {
@@ -356,6 +386,14 @@
     100% { background-position: -144% 0; }
   }
 
+  @keyframes signal-breathe {
+    50% { transform: scale(1.08); opacity: 0.68; }
+  }
+
+  @keyframes signal-drift {
+    50% { transform: translate3d(8px, -10px, 0); opacity: 0.72; }
+  }
+
   @media (max-width: 960px) {
     .auth-guard {
       grid-template-columns: 1fr;
@@ -369,6 +407,11 @@
     }
 
     .preview-shell {
+      animation: none;
+    }
+
+    .preview-shell::before,
+    .preview-shell::after {
       animation: none;
     }
   }

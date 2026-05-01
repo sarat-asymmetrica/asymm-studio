@@ -73,6 +73,12 @@
     if (!(input instanceof HTMLInputElement)) return;
     seed = Math.max(0, Math.min(999999, Number(input.value)));
   }
+
+  function tokenSwatch(value: string): string {
+    return value.startsWith('#')
+      ? `background:${value}`
+      : `background:linear-gradient(135deg, var(--asymm-primary), var(--asymm-accent))`;
+  }
 </script>
 
 <section class="seed-explorer" style={explorerStyle} aria-labelledby="seed-explorer-title">
@@ -81,11 +87,11 @@
     <h2 id="seed-explorer-title">Seed {seed}</h2>
     <label>
       <span>Seed value</span>
-      <input type="range" min="0" max="999999" value={seed} on:input={setSeedFromInput} aria-label="Seed value slider" />
+      <input type="range" min="0" max="999999" value={seed} oninput={setSeedFromInput} aria-label="Seed value slider" />
     </label>
     <label>
       <span>Exact seed</span>
-      <input type="number" min="0" max="999999" value={seed} on:input={setSeedFromInput} aria-label="Exact seed number" />
+      <input type="number" min="0" max="999999" value={seed} oninput={setSeedFromInput} aria-label="Exact seed number" />
     </label>
     <div class="seed-explorer__region" aria-live="polite">
       <strong>{activeRegion.label}</strong>
@@ -102,6 +108,7 @@
     <dl>
       {#each cssVariables as [name, value]}
         <div>
+          <span class="token-swatch" style={tokenSwatch(value)} aria-hidden="true"></span>
           <dt>{name}</dt>
           <dd>{value}</dd>
         </div>
@@ -138,6 +145,8 @@
     gap: 21px;
     max-width: 100%;
     overflow: hidden;
+    padding: 1px;
+    background-color: var(--asymm-bg);
     color: var(--asymm-text);
   }
 
@@ -171,6 +180,9 @@
 
   h2 {
     margin: 0;
+    border-radius: var(--asymm-radius);
+    background-color: var(--asymm-surface);
+    color: var(--asymm-text);
     font-size: clamp(2rem, 5vw, 4rem);
     line-height: 0.95;
   }
@@ -241,9 +253,18 @@
   }
 
   dl div {
+    display: grid;
+    gap: 4px;
     padding: 10px;
     border-radius: 8px;
     background: var(--asymm-bg);
+  }
+
+  .token-swatch {
+    width: 28px;
+    height: 28px;
+    border: 1px solid color-mix(in srgb, var(--asymm-text), transparent 70%);
+    border-radius: 999px;
   }
 
   dt {
@@ -356,6 +377,36 @@
 
     .seed-explorer__swatches {
       grid-template-columns: repeat(6, 1fr);
+    }
+
+    dl {
+      grid-template-columns: 1fr;
+    }
+
+    dl div {
+      grid-template-columns: auto minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+    }
+
+    dt,
+    dd {
+      overflow-wrap: anywhere;
+    }
+
+    dd {
+      margin: 0;
+      text-align: right;
+    }
+  }
+
+  @media (max-width: 420px) {
+    dl div {
+      grid-template-columns: auto 1fr;
+    }
+
+    dd {
+      grid-column: 2;
+      text-align: left;
     }
   }
 

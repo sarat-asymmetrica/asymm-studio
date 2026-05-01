@@ -1,16 +1,155 @@
 ---
 import LabLayout from '../../layouts/LabLayout.astro';
+import {
+  AESTHETIC_REGIONS,
+  Quaternion,
+  deriveAll,
+  type AestheticRegion,
+  type AestheticRegionName,
+  type DesignTokens
+} from '../../../../../packages/asymm-aesthetic-engine/index.js';
 
-const regions = [
-  ['Wabi-sabi', '#f8f5ee', '#181613', '#b83f31'],
-  ['Neumorphic-soft', '#eef3f0', '#1e2a27', '#6e8f83'],
-  ['Brutal-raw', '#f4f0e8', '#111111', '#ff4b2f'],
-  ['Glass-ethereal', '#eef7fb', '#17232b', '#55a7c8'],
-  ['Modernist-strict', '#ffffff', '#101010', '#295f9a'],
-  ['Indie-craft', '#fff6e6', '#2b201b', '#d05b2f'],
-  ['Research-paper', '#fbfbf7', '#202020', '#5f6f87'],
-  ['Ananta-warm', '#fff4df', '#0f1b18', '#a66f14']
-];
+interface RegionIdentity {
+  readonly paper: string;
+  readonly surface: string;
+  readonly ink: string;
+  readonly muted: string;
+  readonly primary: string;
+  readonly accent: string;
+  readonly description: string;
+}
+
+interface RegionCard {
+  readonly region: AestheticRegion;
+  readonly tokens: DesignTokens;
+  readonly identity: RegionIdentity;
+  readonly style: string;
+  readonly swatches: readonly { readonly label: string; readonly value: string }[];
+}
+
+const identities: Record<AestheticRegionName, RegionIdentity> = {
+  'wabi-sabi': {
+    paper: '#f5ead8',
+    surface: '#fffaf1',
+    ink: '#241b14',
+    muted: '#675646',
+    primary: '#8b5630',
+    accent: '#b66a37',
+    description: 'Weathered paper, low shine, and patient asymmetry.'
+  },
+  'neumorphic-soft': {
+    paper: '#e8f0ec',
+    surface: '#f8fcfa',
+    ink: '#1b2c27',
+    muted: '#52675f',
+    primary: '#5e8477',
+    accent: '#9ab9ad',
+    description: 'Cushioned controls that feel softly pressed into foam.'
+  },
+  'brutal-raw': {
+    paper: '#f6f1e8',
+    surface: '#ffffff',
+    ink: '#090909',
+    muted: '#2b2b2b',
+    primary: '#111111',
+    accent: '#e33820',
+    description: 'Hard edges, direct contrast, and no ornamental apology.'
+  },
+  'glass-ethereal': {
+    paper: '#e8f8ff',
+    surface: '#ffffffcc',
+    ink: '#12303a',
+    muted: '#46646f',
+    primary: '#27799b',
+    accent: '#8fd6f0',
+    description: 'Translucent air, cool refraction, and almost no weight.'
+  },
+  'modernist-strict': {
+    paper: '#ffffff',
+    surface: '#f2f3f3',
+    ink: '#101010',
+    muted: '#4d4d4d',
+    primary: '#1f5f9d',
+    accent: '#101010',
+    description: 'A precise grid, restrained color, and measured cadence.'
+  },
+  'indie-craft': {
+    paper: '#fff0d8',
+    surface: '#fffaf0',
+    ink: '#2d2118',
+    muted: '#654b39',
+    primary: '#a44f2d',
+    accent: '#df8955',
+    description: 'Handmade warmth with small irregular turns of rhythm.'
+  },
+  'research-paper': {
+    paper: '#fbfbf5',
+    surface: '#ffffff',
+    ink: '#1b1b1b',
+    muted: '#4f5967',
+    primary: '#425067',
+    accent: '#8a744d',
+    description: 'Dense notes, quiet margins, and ink-first readability.'
+  },
+  'ananta-warm': {
+    paper: '#fff0d2',
+    surface: '#fff9ec',
+    ink: '#10231d',
+    muted: '#556354',
+    primary: '#815409',
+    accent: '#d89a20',
+    description: 'Golden breath, generous space, and a held-cup warmth.'
+  }
+};
+
+function centerQuaternion(region: AestheticRegion): Quaternion {
+  return new Quaternion(
+    (region.bounds.w[0] + region.bounds.w[1]) / 2,
+    (region.bounds.x[0] + region.bounds.x[1]) / 2,
+    (region.bounds.y[0] + region.bounds.y[1]) / 2,
+    (region.bounds.z[0] + region.bounds.z[1]) / 2
+  ).normalize();
+}
+
+function cardFor(region: AestheticRegion): RegionCard {
+  const tokens: DesignTokens = deriveAll(centerQuaternion(region));
+  const identity: RegionIdentity = identities[region.name];
+  const style = [
+    `--region-paper:${identity.paper}`,
+    `--region-surface:${identity.surface}`,
+    `--region-ink:${identity.ink}`,
+    `--region-muted:${identity.muted}`,
+    `--region-primary:${identity.primary}`,
+    `--region-accent:${identity.accent}`,
+    `--region-derived-primary:${tokens.color.primary}`,
+    `--region-derived-accent:${tokens.color.accent}`,
+    `--region-radius:${tokens.geometry.radius.medium}`,
+    `--region-radius-asym:${tokens.geometry.radius.asymmetric}`,
+    `--region-space:${tokens.geometry.spacing.md}`,
+    `--region-line:${region.parameters.lineHeight}`,
+    `--region-heading:${region.parameters.headingWeight}`,
+    `--region-body:${region.parameters.bodyWeight}`,
+    `--region-letter:${region.parameters.letterSpacing}`,
+    `--region-blur:${tokens.geometry.blur}`,
+    `--region-motion:${tokens.motion.duration}`
+  ].join(';');
+
+  return {
+    region,
+    tokens,
+    identity,
+    style,
+    swatches: [
+      { label: 'paper', value: identity.paper },
+      { label: 'surface', value: identity.surface },
+      { label: 'ink', value: identity.ink },
+      { label: 'primary', value: identity.primary },
+      { label: 'accent', value: identity.accent }
+    ]
+  };
+}
+
+const regionCards = AESTHETIC_REGIONS.map((region: AestheticRegion) => cardFor(region));
 ---
 
 <LabLayout title="Aesthetic Engine">
@@ -25,18 +164,165 @@ const regions = [
     </div>
   </section>
   <section class="dna-grid" aria-label="Aesthetic regions">
-    {regions.map(([name, background, ink, accent]) => (
-      <article class="region-card" style={`background:${background}; color:${ink}; border-color:${accent}`}>
+    {regionCards.map((card) => (
+      <article class:list={['region-card', `region-card--${card.region.name}`]} style={card.style}>
         <div>
-          <h2>{name}</h2>
-          <p style={`color:${ink}`}>Deterministic tokens from seed-space position.</p>
+          <p class="region-kicker">{card.region.mood.join(' / ')}</p>
+          <h2>{card.region.label}</h2>
+          <p>{card.identity.description}</p>
         </div>
-        <div class="swatches" aria-label={`${name} palette`}>
-          <span style={`background:${background}`}></span>
-          <span style={`background:${ink}`}></span>
-          <span style={`background:${accent}`}></span>
+        <div class="swatches" aria-label={`${card.region.label} palette`}>
+          {card.swatches.map((swatch) => (
+            <span role="img" style={`background:${swatch.value}`} title={`${swatch.label}: ${swatch.value}`} aria-label={`${swatch.label} ${swatch.value}`} data-label={swatch.label}></span>
+          ))}
         </div>
       </article>
     ))}
   </section>
 </LabLayout>
+
+<style>
+  .region-card {
+    position: relative;
+    gap: var(--region-space);
+    border-color: color-mix(in srgb, var(--region-primary), var(--region-ink) 16%);
+    background-color: var(--region-surface);
+    background: var(--region-surface);
+    color: var(--region-ink);
+    font-weight: var(--region-body);
+    letter-spacing: var(--region-letter);
+    line-height: var(--region-line);
+    transition: transform var(--region-motion) ease, box-shadow var(--region-motion) ease;
+  }
+
+  .region-card::after {
+    content: "";
+    position: absolute;
+    inset: var(--space-8);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .region-card h2 {
+    margin: 0;
+    color: var(--region-ink);
+    font-size: var(--type-h2);
+    font-weight: var(--region-heading);
+    line-height: var(--line-title);
+  }
+
+  .region-card p {
+    color: var(--region-muted);
+  }
+
+  .region-kicker {
+    margin: 0 0 var(--space-8);
+    color: var(--region-primary);
+    font-size: var(--type-small);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .region-card--wabi-sabi {
+    border-radius: var(--region-radius-asym);
+    background:
+      radial-gradient(circle at 18% 14%, rgb(139 86 48 / 0.12), transparent 28%),
+      linear-gradient(135deg, var(--region-paper), var(--region-surface));
+    background-color: var(--region-surface);
+  }
+
+  .region-card--wabi-sabi::after {
+    border: var(--space-1) dashed rgb(36 27 20 / 0.14);
+  }
+
+  .region-card--neumorphic-soft {
+    border-color: transparent;
+    border-radius: var(--space-21);
+    background: var(--region-paper);
+    background-color: var(--region-paper);
+    box-shadow: 11px 11px 24px #c4d0ca, -11px -11px 24px #ffffff;
+  }
+
+  .region-card--brutal-raw {
+    border-width: var(--space-3);
+    border-radius: 0;
+    background: linear-gradient(180deg, var(--region-surface) 0 78%, var(--region-accent) 78% 100%);
+    background-color: var(--region-surface);
+    box-shadow: var(--space-8) var(--space-8) 0 var(--region-ink);
+    text-transform: uppercase;
+  }
+
+  .region-card--glass-ethereal {
+    border-color: rgb(39 121 155 / 0.34);
+    border-radius: var(--space-34);
+    background:
+      linear-gradient(135deg, rgb(255 255 255 / 0.72), rgb(143 214 240 / 0.22)),
+      var(--region-paper);
+    background-color: var(--region-paper);
+    backdrop-filter: blur(var(--region-blur));
+    box-shadow: 0 var(--space-21) var(--space-55) rgb(39 121 155 / 0.16);
+  }
+
+  .region-card--modernist-strict {
+    border-radius: var(--space-2);
+    background:
+      linear-gradient(90deg, rgb(16 16 16 / 0.06) var(--space-1), transparent var(--space-1)),
+      linear-gradient(180deg, rgb(16 16 16 / 0.06) var(--space-1), transparent var(--space-1)),
+      var(--region-surface);
+    background-color: var(--region-surface);
+    background-size: var(--space-34) var(--space-34);
+  }
+
+  .region-card--indie-craft {
+    border-radius: 18px 10px 22px 12px;
+    border-style: dashed;
+    background:
+      radial-gradient(circle at 84% 18%, rgb(223 137 85 / 0.22), transparent 26%),
+      var(--region-paper);
+    background-color: var(--region-paper);
+    transform: rotate(-0.35deg);
+  }
+
+  .region-card--research-paper {
+    border-radius: var(--space-2);
+    background:
+      linear-gradient(180deg, transparent 0 95%, rgb(27 27 27 / 0.08) 95% 100%),
+      var(--region-surface);
+    background-color: var(--region-surface);
+    background-size: 100% var(--space-21);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .region-card--ananta-warm {
+    border-color: var(--region-accent);
+    border-radius: var(--space-13) var(--space-34) var(--space-21);
+    background:
+      radial-gradient(circle at 80% 0%, rgb(216 154 32 / 0.28), transparent 34%),
+      linear-gradient(135deg, var(--region-paper), var(--region-surface));
+    background-color: var(--region-surface);
+    box-shadow: 0 var(--space-13) var(--space-34) rgb(129 84 9 / 0.16);
+  }
+
+  .region-card--brutal-raw p,
+  .region-card--brutal-raw .region-kicker {
+    color: var(--region-ink);
+  }
+
+  .region-card--glass-ethereal h2 {
+    font-weight: 400;
+  }
+
+  .region-card--research-paper h2 {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .region-card {
+      transition: none;
+    }
+
+    .region-card--indie-craft {
+      transform: none;
+    }
+  }
+</style>

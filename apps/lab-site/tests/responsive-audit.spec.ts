@@ -16,11 +16,12 @@ const routes = [
 ] as const;
 
 const widths = [320, 768, 1024, 1440] as const;
+const colorSchemes = ['light', 'dark'] as const;
 const baseUrl = process.env.LAB_AUDIT_BASE_URL ?? 'http://127.0.0.1:4322';
 
-async function auditPage(page: Page, route: string, width: number): Promise<void> {
+async function auditPage(page: Page, route: string, width: number, colorScheme: 'light' | 'dark'): Promise<void> {
   await page.setViewportSize({ width, height: 900 });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
 
   const metrics = await page.evaluate(() => {
@@ -101,8 +102,10 @@ async function auditPage(page: Page, route: string, width: number): Promise<void
 
 for (const route of routes) {
   for (const width of widths) {
-    test(`${route} has responsive accessible layout at ${width}px`, async ({ page }) => {
-      await auditPage(page, route, width);
-    });
+    for (const colorScheme of colorSchemes) {
+      test(`${route} has responsive accessible layout at ${width}px in ${colorScheme} mode`, async ({ page }) => {
+        await auditPage(page, route, width, colorScheme);
+      });
+    }
   }
 }

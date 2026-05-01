@@ -1,7 +1,26 @@
 ---
 import LabLayout from '../../layouts/LabLayout.astro';
 
-const components = ['Hero', 'Navbar', 'Card', 'Button', 'Modal', 'Pricing', 'Testimonial', 'Gallery', 'Code Block', 'Data Table', 'Timeline', 'Command Bar'];
+interface ComponentSample {
+  readonly name: string;
+  readonly description: string;
+  readonly preview: string;
+}
+
+const components: readonly ComponentSample[] = [
+  { name: 'Hero', description: 'Full-width landing section with headline and call to action.', preview: 'hero' },
+  { name: 'Navbar', description: 'Horizontal navigation bar with logo and links.', preview: 'navbar' },
+  { name: 'Card', description: 'Contained content block with image, title, and body.', preview: 'card' },
+  { name: 'Button', description: 'Interactive action trigger with seed-derived weight.', preview: 'button' },
+  { name: 'Modal', description: 'Overlay dialog for focused interaction.', preview: 'modal' },
+  { name: 'Pricing', description: 'Feature-comparison pricing table.', preview: 'pricing' },
+  { name: 'Testimonial', description: 'Quote block with attribution and avatar.', preview: 'testimonial' },
+  { name: 'Gallery', description: 'Image grid with seed-derived spacing.', preview: 'gallery' },
+  { name: 'Code Block', description: 'Syntax-highlighted code with region-aware chrome.', preview: 'code' },
+  { name: 'Data Table', description: 'Structured data rows with sortable headers.', preview: 'table' },
+  { name: 'Timeline', description: 'Chronological event sequence with connecting line.', preview: 'timeline' },
+  { name: 'Command Bar', description: 'Keyboard-driven command palette overlay.', preview: 'command' }
+];
 ---
 
 <LabLayout title="Components">
@@ -16,12 +35,133 @@ const components = ['Hero', 'Navbar', 'Card', 'Button', 'Modal', 'Pricing', 'Tes
   </section>
   <section class="component-grid" aria-label="Seeded component samples">
     {components.map((component, index) => (
-      <article class="component-card" style={`border-color:${index % 3 === 0 ? '#006b5f' : index % 3 === 1 ? '#b83f31' : '#295f9a'}`}>
+      <article class="component-card component-catalog-card" style={`--component-accent:${index % 3 === 0 ? 'var(--green)' : index % 3 === 1 ? 'var(--red)' : 'var(--blue)'}`}>
+        <div class:list={['component-preview', `component-preview--${component.preview}`]} aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <p class="eyebrow">{String(index + 1).padStart(2, '0')}</p>
-        <h2>{component}</h2>
-        <p>Region-aware palette, radius, shadow, texture, and motion variables.</p>
+        <h2>{component.name}</h2>
+        <p>{component.description}</p>
         <a class="button-link" href="/aesthetic-engine/">View DNA</a>
       </article>
     ))}
   </section>
 </LabLayout>
+
+<style>
+  .component-catalog-card {
+    display: grid;
+    gap: var(--space-13);
+    align-content: start;
+    border-color: color-mix(in srgb, var(--component-accent), var(--line) 42%);
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  }
+
+  .component-catalog-card h2 {
+    margin: 0;
+    font-size: var(--type-h3);
+  }
+
+  .component-catalog-card p:not(.eyebrow) {
+    margin: 0;
+  }
+
+  .component-preview {
+    display: grid;
+    gap: var(--space-5);
+    min-height: var(--space-89);
+    padding: var(--space-13);
+    border: var(--space-1) solid color-mix(in srgb, var(--component-accent), transparent 62%);
+    border-radius: var(--radius-8);
+    background: color-mix(in srgb, var(--component-accent), var(--surface) 88%);
+  }
+
+  .component-preview span {
+    display: block;
+    border-radius: var(--radius-5);
+    background: var(--component-accent);
+    opacity: 0.86;
+  }
+
+  .component-preview--hero span:first-child,
+  .component-preview--modal span:nth-child(2),
+  .component-preview--command span:first-child {
+    height: var(--space-21);
+  }
+
+  .component-preview--navbar {
+    grid-template-columns: var(--space-34) 1fr 1fr 1fr;
+    align-items: center;
+  }
+
+  .component-preview--card span:first-child,
+  .component-preview--testimonial span:first-child {
+    height: var(--space-34);
+  }
+
+  .component-preview--button,
+  .component-preview--command {
+    align-content: center;
+  }
+
+  .component-preview--button span:first-child,
+  .component-preview--command span:first-child {
+    width: 70%;
+    margin-inline: auto;
+    border-radius: var(--radius-pill);
+  }
+
+  .component-preview--modal {
+    place-items: center;
+    background:
+      linear-gradient(rgb(23 21 20 / 0.16), rgb(23 21 20 / 0.16)),
+      color-mix(in srgb, var(--component-accent), var(--surface) 88%);
+  }
+
+  .component-preview--pricing {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .component-preview--testimonial {
+    grid-template-columns: var(--space-34) 1fr;
+    align-items: center;
+  }
+
+  .component-preview--testimonial span:first-child {
+    border-radius: var(--radius-pill);
+  }
+
+  .component-preview--gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .component-preview--code {
+    background: var(--ink);
+  }
+
+  .component-preview--code span {
+    background: var(--green);
+  }
+
+  .component-preview--table {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .component-preview--timeline {
+    grid-template-columns: var(--space-5) 1fr;
+  }
+
+  .component-preview--timeline span:first-child {
+    grid-row: span 4;
+    border-radius: var(--radius-pill);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .component-catalog-card {
+      transition: none;
+    }
+  }
+</style>

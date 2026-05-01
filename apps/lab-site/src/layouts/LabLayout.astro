@@ -55,6 +55,7 @@ const breadcrumbs = [
             <a href={item.href} class:list={{ active: isActive(item.href) }} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
           ))}
         </nav>
+        <ThemeSwitcher client:load />
         <details class="mobile-nav">
           <summary aria-label="Open navigation menu">Menu</summary>
           <nav aria-label="Mobile primary">
@@ -83,7 +84,6 @@ const breadcrumbs = [
         </nav>
         <strong>Built with Asymmetrica</strong>
       </footer>
-      <ThemeSwitcher client:load />
     </div>
   </body>
 </html>

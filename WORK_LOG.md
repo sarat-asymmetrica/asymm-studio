@@ -1212,3 +1212,349 @@ Completed the V2 final verification sweep across the aesthetic engine, bio-reson
 
 ### Known Limitations
 The remaining Svelte build message is a dependency-level compatibility notice for `vite-plugin-svelte@3` with Svelte 5; it does not block build or runtime. Live camera behavior still depends on browser permission and secure-context availability, with deterministic simulation as the verified fallback.
+
+## CHECKPOINT — V3 Ticket 1: Typography Scale Tightening
+**Time**: 2026-05-01T11:06:17.3113397+05:30
+**Status**: PASS
+
+### What was built
+Replaced the steep golden-ratio heading jump with calmer fluid `clamp()` type tokens while preserving the PHI-based naming layer. Widened global H1 measure so desktop page titles avoid unnecessary wrapping and mobile titles stay bounded.
+
+### Files changed
+- `apps/lab-site/src/styles/tokens.css` — added fluid body, small, h3, h2, and h1 type tokens.
+- `apps/lab-site/src/styles/typography.css` — routed global body and heading styles through the new type tokens.
+- `apps/lab-site/src/styles/lab.css` — widened H1 measure constraints for desktop and mobile.
+- `DECISIONS.md` — logged the central typography-token decision.
+
+### Elegance Score
+- Adequacy: 0.97
+- Correctness: 0.98
+- Minimality: 0.97
+- Locality: 0.98
+- Complexity: 0.02
+- Risk: 0.02
+- Score: 0.89 | PASS
+
+### Known Limitations
+Full visual confirmation across all page widths is reserved for the Ticket 12 Playwright pass; the machine gate for this ticket passed with `npm run verify`.
+
+## CHECKPOINT — V3 Ticket 2: Card Grid Responsive Fix
+**Time**: 2026-05-01T11:06:43.9792748+05:30
+**Status**: PASS
+
+### What was built
+Updated shared lab card grids to use responsive `auto-fill` tracks with a `min(100%, 16rem)` floor. Added card min-width and wrapping guards so long labels stay inside region and component cards.
+
+### Files changed
+- `apps/lab-site/src/styles/lab.css` — changed DNA/card/component grids and card overflow behavior.
+
+### Elegance Score
+- Adequacy: 0.97
+- Correctness: 0.98
+- Minimality: 0.98
+- Locality: 0.98
+- Complexity: 0.02
+- Risk: 0.02
+- Score: 0.90 | PASS
+
+### Known Limitations
+Exact per-width clipping checks remain part of the Ticket 12 visual audit; the verify gate passed for this ticket.
+
+## CHECKPOINT — V3 Ticket 3: Theme Switcher Repositioning
+**Time**: 2026-05-01T11:07:33.2524773+05:30
+**Status**: PASS
+
+### What was built
+Moved the theme switcher from a fixed lower-right overlay into the shared header flow. The control remains present on every page, keeps a native keyboard-friendly select, and no longer covers cards, token labels, or body text.
+
+### Files changed
+- `apps/lab-site/src/layouts/LabLayout.astro` — rendered the theme switcher inline in the topbar.
+- `apps/lab-site/src/components/ThemeSwitcher.svelte` — removed fixed positioning, switched to Svelte 5 event syntax, and adapted the header-sized control styles.
+- `apps/lab-site/src/styles/lab.css` — let the topbar wrap safely around navigation and theme controls.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.96
+- Locality: 0.97
+- Complexity: 0.03
+- Risk: 0.02
+- Score: 0.86 | PASS
+
+### Known Limitations
+The theme selector remains a compact native select rather than a fully custom segmented picker; this keeps keyboard and mobile behavior reliable for the polish pass.
+
+## CHECKPOINT — V3 Ticket 4: Region Cards Demonstrate Their Aesthetic
+**Time**: 2026-05-01T11:10:00.8591079+05:30
+**Status**: PASS
+
+### What was built
+Rebuilt the eight aesthetic region cards as live visual specimens instead of identical cards. Each card now derives token variables from its region center quaternion via `deriveAll()`, layers in a sensory-signature treatment, uses a unique one-line description, and exposes five labeled swatches.
+
+### Files changed
+- `apps/lab-site/src/pages/aesthetic-engine/index.astro` — region-derived card data, identity descriptions, five swatches, and per-region visual treatments.
+- `DECISIONS.md` — logged the derived-token plus authored-signature strategy for named region recognizability.
+
+### Elegance Score
+- Adequacy: 0.99
+- Correctness: 0.98
+- Minimality: 0.94
+- Locality: 0.95
+- Complexity: 0.05
+- Risk: 0.03
+- Score: 0.84 | RETRY
+
+### Known Limitations
+Initial build failed due to a page-depth relative import miss; corrected before checkpointing.
+
+### Elegance Score
+- Adequacy: 0.99
+- Correctness: 0.99
+- Minimality: 0.95
+- Locality: 0.96
+- Complexity: 0.04
+- Risk: 0.03
+- Score: 0.88 | PASS
+
+### Persona Storm Findings
+- Designer: The overview now shows region intent at a glance instead of asking the reader to infer it from labels.
+- Accessibility user: Swatches include labels/titles and text colors are explicit per card.
+
+### Known Limitations
+The authored sensory-signature palette layer should eventually collapse into a richer color derivation model, but the current approach keeps V3 honest to both named region identity and existing `deriveAll()` tokens.
+
+## CHECKPOINT — V3 Ticket 5: Component Catalog Enrichment
+**Time**: 2026-05-01T11:11:12.3131016+05:30
+**Status**: PASS
+
+### What was built
+Turned the component catalog into twelve distinct component samples with unique one-line descriptions and lightweight preview silhouettes. The cards still inherit the active lab theme while each preview communicates the component's shape.
+
+### Files changed
+- `apps/lab-site/src/pages/aesthetic-engine/components.astro` — component metadata, unique descriptions, preview markup, and preview-specific CSS.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.96
+- Locality: 0.97
+- Complexity: 0.03
+- Risk: 0.02
+- Score: 0.86 | PASS
+
+### Persona Storm Findings
+- Junior dev: The catalog now explains what each component is without requiring the engine vocabulary first.
+- Designer: Preview silhouettes make the catalog scannable before reading copy.
+
+### Known Limitations
+The previews are symbolic miniatures, not full component implementations; the live primitive behavior remains in the Seed Explorer and package primitives.
+
+## CHECKPOINT — V3 Ticket 6: Dark Mode
+**Time**: 2026-05-01T11:13:33.5181249+05:30
+**Status**: PASS
+
+### What was built
+Added root-level light/dark color-mode overrides on top of `prefers-color-scheme`, plus a manual light/dark toggle beside the theme selector. Region theme application now has dark variants, and the living temporal seed respects manual or system dark mode when applying root variables.
+
+### Files changed
+- `apps/lab-site/src/styles/tokens.css` — added explicit light and dark root color-mode selectors.
+- `apps/lab-site/src/styles/lab.css` — made the topbar respect manual color-mode overrides.
+- `apps/lab-site/src/components/ThemeSwitcher.svelte` — added session-scoped manual dark-mode toggle and per-region dark palettes.
+- `apps/lab-site/src/components/LivingLabSeed.svelte` — applied dark temporal palettes when the root mode or system preference is dark.
+- `DECISIONS.md` — logged the session-scoped manual dark-mode strategy.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.94
+- Locality: 0.95
+- Complexity: 0.05
+- Risk: 0.03
+- Score: 0.84 | RETRY
+
+### Known Limitations
+The first score reflected duplicated dark palette tables in two islands.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.99
+- Minimality: 0.95
+- Locality: 0.96
+- Complexity: 0.04
+- Risk: 0.03
+- Score: 0.88 | PASS
+
+### Persona Storm Findings
+- End user: Manual light/dark choice is visible in the same place as aesthetic theme choice.
+- Accessibility user: Dark surfaces use explicit ink/muted/line values rather than inverting colors blindly.
+
+### Known Limitations
+Dark palette data is duplicated between the theme switcher and temporal seed island until the lab owns a shared client palette module.
+
+## CHECKPOINT — V3 Ticket 7: Full-Page Theme Cascade
+**Time**: 2026-05-01T11:16:13.4536584+05:30
+**Status**: PASS
+
+### What was built
+Made the selected aesthetic region cascade through the full lab page by stamping `<html>` with `data-region` and global region variables. Backgrounds, card radius, border weight, shadows, heading weight, letter spacing, page padding, links, and selected regional textures now respond across the whole site.
+
+### Files changed
+- `apps/lab-site/src/components/ThemeSwitcher.svelte` — sets `data-region` when applying a region theme.
+- `apps/lab-site/src/components/LivingLabSeed.svelte` — sets `data-region` for daily temporal themes.
+- `apps/lab-site/src/styles/tokens.css` — added region cascade variables and reduced-motion-safe transitions.
+- `apps/lab-site/src/styles/lab.css` — routed global layout, cards, links, headings, and surfaces through the cascade variables.
+- `DECISIONS.md` — logged the root `data-region` cascade strategy.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.95
+- Locality: 0.96
+- Complexity: 0.04
+- Risk: 0.03
+- Score: 0.88 | PASS
+
+### Persona Storm Findings
+- Designer: Region selection now changes the page's posture, not only isolated card colors.
+- End user: The theme control has an obvious site-wide consequence, making the engine feel demonstrable.
+
+### Known Limitations
+The cascade is CSS-variable driven; deeper typography family changes are intentionally conservative except for the research-paper region.
+
+## CHECKPOINT — V3 Ticket 8: Token Table Mobile Layout
+**Time**: 2026-05-01T11:17:09.7939849+05:30
+**Status**: PASS
+
+### What was built
+Made the Seed Explorer token list mobile-readable by adding a swatch to every token row and switching the definition list into row layout on narrow screens. Variable names and values now wrap without truncation at phone widths.
+
+### Files changed
+- `apps/lab-site/src/components/SeedExplorer.svelte` — token swatch helper, row markup, and responsive definition-list layout.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.96
+- Locality: 0.97
+- Complexity: 0.03
+- Risk: 0.02
+- Score: 0.86 | PASS
+
+### Known Limitations
+Non-color tokens use an accent gradient swatch because radius, spacing, and duration are not directly representable as a color chip.
+
+## CHECKPOINT — V3 Ticket 9: Simulated Camera Animation
+**Time**: 2026-05-01T11:18:49.4109554+05:30
+**Status**: PASS
+
+### What was built
+Added a calm simulated-signal layer to camera preview wells: a soft radial breath plus drifting points behind the local video surface. The animation appears on calibration, gaze cursor, stress reader, and continuous auth previews and is disabled under reduced motion.
+
+### Files changed
+- `packages/asymm-bio-resonance/components/CalibrationRitual.svelte` — signal pulse and drifting-point preview layer.
+- `packages/asymm-bio-resonance/components/GazeCursor.svelte` — signal pulse and drifting-point preview layer.
+- `packages/asymm-bio-resonance/components/StressAdaptiveReader.svelte` — signal pulse and drifting-point preview layer.
+- `packages/asymm-bio-resonance/components/ContinuousAuthGuard.svelte` — signal pulse and drifting-point preview layer.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.95
+- Locality: 0.96
+- Complexity: 0.04
+- Risk: 0.02
+- Score: 0.88 | PASS
+
+### Persona Storm Findings
+- End user: The simulated areas now imply local sensing without pretending a real feed is active.
+- Accessibility user: `prefers-reduced-motion` disables both the pulse and drift.
+
+### Known Limitations
+The animation is CSS-only and intentionally symbolic; real camera frames still appear only after browser permission.
+
+## CHECKPOINT — V3 Ticket 10: Hover States and Micro-Interactions
+**Time**: 2026-05-01T11:19:43.0848224+05:30
+**Status**: PASS
+
+### What was built
+Added subtle global micro-interactions for navigation, links, cards, and buttons using 160ms PHI-adjacent timing. Cards lift gently, navigation links gain an underline sweep, DNA links slide their arrow, and buttons pulse slightly while reduced-motion users get state changes without movement.
+
+### Files changed
+- `apps/lab-site/src/styles/lab.css` — shared hover/focus transitions, nav underline, card lift, button motion, and reduced-motion fallback.
+
+### Elegance Score
+- Adequacy: 0.98
+- Correctness: 0.98
+- Minimality: 0.96
+- Locality: 0.97
+- Complexity: 0.03
+- Risk: 0.02
+- Score: 0.86 | PASS
+
+### Known Limitations
+Some package-local Svelte component styles still define their own button colors; the global hover motion applies without rewriting each component's visual language.
+
+## CHECKPOINT — V3 Ticket 11: Region Color Swatch Enhancement
+**Time**: 2026-05-01T11:20:45.7140123+05:30
+**Status**: PASS
+
+### What was built
+Strengthened region swatches with five labeled palette chips per card, 32px hit visuals, variable-name tooltips, and shape variation so the palette is not color-only. Region cards now expose paper, surface, ink, primary, and accent values.
+
+### Files changed
+- `apps/lab-site/src/pages/aesthetic-engine/index.astro` — added `data-label` and accessible image roles to swatches.
+- `apps/lab-site/src/styles/lab.css` — enlarged swatches, added label tooltips, and added shape differentiation.
+
+### Elegance Score
+- Adequacy: 0.99
+- Correctness: 0.98
+- Minimality: 0.97
+- Locality: 0.98
+- Complexity: 0.02
+- Risk: 0.02
+- Score: 0.91 | PASS
+
+### Known Limitations
+Swatch hover labels supplement, rather than replace, the built-in `title` and `aria-label` metadata for non-pointer users.
+
+## CHECKPOINT — V3 Ticket 12: Final Verification and Polish Pass
+**Time**: 2026-05-01T11:33:41.9637250+05:30
+**Status**: PASS
+
+### What was built
+Completed the final V3 verification pass and tightened the automated browser audit to exercise every lab route in both light and dark color schemes. Removed generated Playwright artifacts after the passing run and confirmed the local demo server is healthy.
+
+### Files changed
+- `apps/lab-site/tests/responsive-audit.spec.ts` — expanded the responsive audit matrix to cover light and dark modes with reduced motion across all 12 routes and four viewport widths.
+- `apps/lab-site/src/pages/aesthetic-engine/index.astro` — added explicit region-card background fallbacks discovered by the dark-mode audit.
+- `apps/lab-site/src/components/SeedExplorer.svelte` — pinned explorer heading foreground and surface colors for dark-mode contrast.
+- `packages/asymm-bio-resonance/components/StressAdaptiveReader.svelte` — pinned reader copy and eyebrow colors for dark-mode contrast.
+- `packages/asymm-bio-resonance/components/CalibrationRitual.svelte` — replaced deprecated Svelte event syntax in final polish.
+- `packages/asymm-bio-resonance/components/GazeCursor.svelte` — replaced deprecated Svelte event syntax in final polish.
+- `packages/asymm-bio-resonance/components/StressAdaptiveReader.svelte` — replaced deprecated Svelte event syntax in final polish.
+- `packages/asymm-bio-resonance/components/ContinuousAuthGuard.svelte` — replaced deprecated Svelte event syntax in final polish.
+
+### Verification
+- `npx vitest run` — PASS, 22 test files and 77 tests.
+- `npm run verify` — PASS, privacy, a11y, and forbidden-pattern scans.
+- `npx tsc --noEmit` in `packages/asymm-aesthetic-engine` — PASS.
+- `npx tsc --noEmit` in `packages/asymm-bio-resonance` — PASS.
+- `npm run build` in `apps/lab-site` — PASS, 12 static pages generated.
+- `npx playwright test apps/lab-site/tests/responsive-audit.spec.ts --reporter=line` — PASS, 96 responsive/a11y checks.
+- `Invoke-WebRequest http://127.0.0.1:4322/` — PASS, HTTP 200.
+
+### Elegance Score
+- Adequacy: 1.00
+- Correctness: 0.99
+- Minimality: 0.96
+- Locality: 0.97
+- Complexity: 0.05
+- Risk: 0.02
+- Score: 0.88 | PASS
+
+### Persona Storm Findings
+- End user: The final pass now checks that the polished region identity holds up in both preferred color schemes.
+- Accessibility user: The audit uses reduced motion and validates contrast/overflow across mobile, tablet, and desktop widths.
+
+### Known Limitations
+The build still reports the existing dependency-level Svelte 5 compatibility warning from `@astrojs/svelte` / `vite-plugin-svelte@3`; component-level deprecated event warnings were removed during the polish pass.

@@ -13,7 +13,7 @@
 
 body {
   font-family: var(--font-sans);
-  font-size: var(--type-0);
+  font-size: var(--type-body);
   line-height: var(--line-copy);
 }
 
@@ -26,17 +26,17 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(var(--type-2), 9vw, var(--type-4));
+  font-size: var(--type-h1);
   line-height: var(--line-tight);
 }
 
 h2 {
-  font-size: clamp(var(--type-1), 4vw, var(--type-3));
+  font-size: var(--type-h2);
   line-height: var(--line-title);
 }
 
 h3 {
-  font-size: var(--type-1);
+  font-size: var(--type-h3);
   line-height: var(--line-title);
 }
 
@@ -50,5 +50,5 @@ code,
 kbd,
 samp {
   font-family: var(--font-mono);
-  font-size: var(--type--1);
+  font-size: var(--type-small);
 }

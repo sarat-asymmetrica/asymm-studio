@@ -153,8 +153,8 @@
       <p class="error" role="alert">{cameraError}</p>
     {/if}
     <div class="actions">
-      <button type="button" on:click={start} aria-label="Start gaze cursor demo" disabled={running}>Start</button>
-      <button type="button" on:click={stop} aria-label="Stop gaze cursor demo" disabled={!running}>Stop</button>
+      <button type="button" onclick={start} aria-label="Start gaze cursor demo" disabled={running}>Start</button>
+      <button type="button" onclick={stop} aria-label="Stop gaze cursor demo" disabled={!running}>Stop</button>
     </div>
   </article>
   <footer>{PRIVACY_FOOTER} {detectorLabel}.</footer>
@@ -177,13 +177,42 @@
 
   .preview-shell {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     min-height: 300px;
     border-radius: 8px;
     background: #24312f;
   }
 
+  .preview-shell::before,
+  .preview-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .preview-shell::before {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 50% 42%, rgb(255 253 248 / 0.14), transparent 0 18%, transparent 34%),
+      radial-gradient(circle at 30% 70%, rgb(0 107 95 / 0.22), transparent 0 5%, transparent 9%),
+      radial-gradient(circle at 74% 30%, rgb(176 71 52 / 0.18), transparent 0 4%, transparent 8%);
+    animation: signal-breathe 2600ms ease-in-out infinite;
+  }
+
+  .preview-shell::after {
+    z-index: 0;
+    background:
+      radial-gradient(circle at 24% 28%, rgb(255 253 248 / 0.28), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 60% 62%, rgb(255 253 248 / 0.22), transparent 0 2px, transparent 5px),
+      radial-gradient(circle at 82% 44%, rgb(255 253 248 / 0.2), transparent 0 2px, transparent 5px);
+    animation: signal-drift 5200ms ease-in-out infinite;
+  }
+
   video {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -201,6 +230,7 @@
     color: #fffdf8;
     font-size: 0.78rem;
     font-weight: 800;
+    z-index: 2;
   }
 
   .mode-pill.live {
@@ -354,6 +384,14 @@
     100% { background-position: -144% 0; }
   }
 
+  @keyframes signal-breathe {
+    50% { transform: scale(1.08); opacity: 0.68; }
+  }
+
+  @keyframes signal-drift {
+    50% { transform: translate3d(8px, -10px, 0); opacity: 0.72; }
+  }
+
   @media (max-width: 720px) {
     .gaze-demo { grid-template-columns: 1fr; }
   }
@@ -361,6 +399,8 @@
   @media (prefers-reduced-motion: reduce) {
     .cursor { transition: none; }
     .preview-shell { animation: none; }
+    .preview-shell::before,
+    .preview-shell::after { animation: none; }
     .reader { scroll-behavior: auto; }
     p { transition: none; }
     p.active { transform: none; }
