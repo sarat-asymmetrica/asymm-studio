@@ -1,0 +1,89 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  title?: string;
+  open?: boolean;
+}
+
+const { seed, title = 'Shoji Modal', open = true } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.asymmetric}`,
+  `--asymm-space:${tokens.geometry.spacing.md}`,
+  `--asymm-duration:${tokens.motion.duration.medium}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<aside class="asymm-shoji-modal" style={style} aria-labelledby={`shoji-title-${seed}`} aria-modal={open ? 'true' : 'false'} role="dialog" data-seed={seed} data-open={open}>
+  <div class="asymm-shoji-modal__panel">
+    <p class="asymm-shoji-modal__eyebrow">Seed {seed}</p>
+    <h2 id={`shoji-title-${seed}`}>{title}</h2>
+    <div class="asymm-shoji-modal__body">
+      <slot>Seed-derived shoji layers create a quiet, inspectable dialog surface.</slot>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .asymm-shoji-modal {
+    display: grid;
+    place-items: center;
+    min-height: 18rem;
+    padding: var(--asymm-space);
+    background: linear-gradient(135deg, var(--asymm-bg), var(--asymm-surface));
+    color: var(--asymm-text);
+  }
+
+  .asymm-shoji-modal__panel {
+    width: min(100%, 34rem);
+    padding: calc(var(--asymm-space) * 1.25);
+    border: 1px solid color-mix(in srgb, var(--asymm-primary), transparent 58%);
+    border-radius: var(--asymm-radius);
+    background: color-mix(in srgb, var(--asymm-surface), transparent 8%);
+    box-shadow: 0 1rem 3rem color-mix(in srgb, var(--asymm-primary), transparent 82%);
+    transform: translateY(0);
+    transition: transform var(--asymm-duration) var(--asymm-ease), box-shadow var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-shoji-modal__panel:hover {
+    transform: translateY(-0.25rem);
+  }
+
+  .asymm-shoji-modal__eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--asymm-accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .asymm-shoji-modal h2 {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    line-height: 1;
+  }
+
+  .asymm-shoji-modal__body {
+    color: var(--asymm-muted);
+    line-height: 1.65;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-shoji-modal__panel {
+      transition: none;
+    }
+
+    .asymm-shoji-modal__panel:hover {
+      transform: none;
+    }
+  }
+</style>

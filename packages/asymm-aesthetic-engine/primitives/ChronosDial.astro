@@ -1,0 +1,83 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  value?: number;
+  label?: string;
+}
+
+const { seed, value = 0.62, label = 'Chronos progress' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const safeValue = Math.max(0, Math.min(1, value));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.large}`,
+  `--asymm-space:${tokens.geometry.spacing.sm}`,
+  `--asymm-value:${safeValue}`,
+  `--asymm-duration:${tokens.motion.duration.medium}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<figure class="asymm-chronos-dial" style={style} data-seed={seed} role="img" aria-label={`${label}: ${Math.round(safeValue * 100)} percent`}>
+  <div class="asymm-chronos-dial__face">
+    <span>{Math.round(safeValue * 100)}%</span>
+  </div>
+  <figcaption>{label}</figcaption>
+</figure>
+
+<style>
+  .asymm-chronos-dial {
+    display: inline-grid;
+    gap: var(--asymm-space);
+    place-items: center;
+    margin: 0;
+    color: var(--asymm-text);
+  }
+
+  .asymm-chronos-dial__face {
+    display: grid;
+    width: 8rem;
+    height: 8rem;
+    place-items: center;
+    border-radius: var(--asymm-radius);
+    background: conic-gradient(var(--asymm-accent) calc(var(--asymm-value) * 1turn), color-mix(in srgb, var(--asymm-primary), transparent 74%) 0);
+    transition: filter var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-chronos-dial__face::before {
+    position: absolute;
+    width: 5.7rem;
+    height: 5.7rem;
+    border-radius: inherit;
+    background: var(--asymm-surface);
+    content: "";
+  }
+
+  .asymm-chronos-dial__face span {
+    position: relative;
+    font-weight: 900;
+  }
+
+  .asymm-chronos-dial figcaption {
+    color: var(--asymm-muted);
+    font-size: 0.88rem;
+    font-weight: 800;
+  }
+
+  .asymm-chronos-dial:hover .asymm-chronos-dial__face {
+    filter: saturate(1.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-chronos-dial__face {
+      transition: none;
+    }
+  }
+</style>

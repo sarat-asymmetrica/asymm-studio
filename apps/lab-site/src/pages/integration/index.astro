@@ -1,0 +1,38 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import AdaptiveRegionReader from '../../components/AdaptiveRegionReader.svelte';
+import AestheticAuth from '../../components/AestheticAuth.svelte';
+import LivingLabSeed from '../../components/LivingLabSeed.svelte';
+---
+
+<LabLayout title="Where the Engines Meet">
+  <section class="page-header">
+    <p class="eyebrow">Integration</p>
+    <h1>Where the Engines Meet</h1>
+    <p>These demos prove the architecture: aesthetic generation and bio-resonance stay independent until the lab app composes them into living interfaces.</p>
+    <div class="context-links">
+      <a class="button-link" href="/integration/aesthetic-auth/">Focused Auth Demo</a>
+      <a class="button-link" href="/aesthetic-engine/explorer/">Seed Explorer</a>
+      <a class="button-link" href="/bio-resonance/stress-adaptive/">Standalone Reader</a>
+    </div>
+  </section>
+
+  <section class="integration-stack" aria-label="Cross-engine integrations">
+    <div class="demo-panel">
+      <AestheticAuth client:load />
+    </div>
+    <div class="demo-panel">
+      <LivingLabSeed client:load />
+    </div>
+    <div class="demo-panel">
+      <AdaptiveRegionReader client:load />
+    </div>
+  </section>
+</LabLayout>
+
+<style>
+  .integration-stack {
+    display: grid;
+    gap: var(--space-34);
+  }
+</style>

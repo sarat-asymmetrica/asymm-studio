@@ -1,0 +1,93 @@
+:root {
+  color-scheme: light;
+
+  --phi: 1.61803398875;
+  --phi-inverse: 0.61803398875;
+
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-3: 3px;
+  --space-5: 5px;
+  --space-8: 8px;
+  --space-13: 13px;
+  --space-21: 21px;
+  --space-34: 34px;
+  --space-55: 55px;
+  --space-89: 89px;
+  --space-144: 144px;
+  --space-233: 233px;
+
+  --type--2: 0.382rem;
+  --type--1: 0.618rem;
+  --type-0: 1rem;
+  --type-1: 1.618rem;
+  --type-2: 2.618rem;
+  --type-3: 4.236rem;
+  --type-4: 6.854rem;
+
+  --line-tight: 1;
+  --line-title: 1.05;
+  --line-copy: 1.618;
+  --line-loose: 1.85;
+
+  --radius-3: var(--space-3);
+  --radius-5: var(--space-5);
+  --radius-8: var(--space-8);
+  --radius-pill: 55rem;
+
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-floating: 21;
+  --z-overlay: 55;
+  --z-modal: 89;
+
+  --museum-ink: #171514;
+  --museum-muted: #5f665f;
+  --museum-paper: #faf7ef;
+  --museum-surface: #ffffff;
+  --museum-surface-soft: #f7fbfa;
+  --museum-line: #d8d4ca;
+  --museum-green: #00594f;
+  --museum-red: #b83f31;
+  --museum-blue: #295f9a;
+  --museum-gold: #a66f14;
+
+  --ink: var(--museum-ink);
+  --muted: var(--museum-muted);
+  --paper: var(--museum-paper);
+  --surface: var(--museum-surface);
+  --surface-soft: var(--museum-surface-soft);
+  --line: var(--museum-line);
+  --green: var(--museum-green);
+  --red: var(--museum-red);
+  --blue: var(--museum-blue);
+  --gold: var(--museum-gold);
+
+  --shadow-1: 0 var(--space-1) var(--space-3) rgb(23 21 20 / 0.08);
+  --shadow-2: 0 var(--space-5) var(--space-21) rgb(23 21 20 / 0.1);
+  --shadow-3: 0 var(--space-13) var(--space-55) rgb(23 21 20 / 0.14);
+  --focus-ring: var(--space-2) solid color-mix(in srgb, var(--blue) 72%, white);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --museum-ink: #f3efe4;
+    --museum-muted: #b8beb4;
+    --museum-paper: #141716;
+    --museum-surface: #1d2220;
+    --museum-surface-soft: #18211f;
+    --museum-line: #39413d;
+    --museum-green: #73d6c1;
+    --museum-red: #f09b8f;
+    --museum-blue: #9ec6f1;
+    --museum-gold: #e2b45c;
+
+    --shadow-1: 0 var(--space-1) var(--space-3) rgb(0 0 0 / 0.24);
+    --shadow-2: 0 var(--space-5) var(--space-21) rgb(0 0 0 / 0.28);
+    --shadow-3: 0 var(--space-13) var(--space-55) rgb(0 0 0 / 0.34);
+    --focus-ring: var(--space-2) solid color-mix(in srgb, var(--blue) 76%, black);
+  }
+}

@@ -1,11 +1,39 @@
 ---
 import '../styles/lab.css';
+import ThemeSwitcher from '../components/ThemeSwitcher.svelte';
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const navItems = [
+  { href: '/aesthetic-engine/', label: 'Aesthetic' },
+  { href: '/aesthetic-engine/explorer/', label: 'Explorer' },
+  { href: '/aesthetic-engine/compare/', label: 'Compare' },
+  { href: '/aesthetic-engine/components/', label: 'Components' },
+  { href: '/bio-resonance/calibration/', label: 'Calibration' },
+  { href: '/bio-resonance/gaze-cursor/', label: 'Gaze' },
+  { href: '/bio-resonance/stress-adaptive/', label: 'Reader' },
+  { href: '/bio-resonance/continuous-auth/', label: 'Auth' },
+  { href: '/integration/', label: 'Integration' },
+  { href: '/manifesto/', label: 'Manifesto' }
+];
+
+function isActive(href: string): boolean {
+  return href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href);
+}
+
+const pathSegments = currentPath.split('/').filter(Boolean);
+const breadcrumbs = [
+  { href: '/', label: 'Lab' },
+  ...pathSegments.map((segment: string, index: number) => {
+    const href = `/${pathSegments.slice(0, index + 1).join('/')}/`;
+    const label = segment.split('-').map((part: string) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`).join(' ');
+    return { href, label };
+  })
+];
 ---
 
 <!doctype html>
@@ -18,20 +46,44 @@ const { title } = Astro.props;
   <body>
     <div class="shell">
       <header class="topbar">
-        <a class="brand" href="/">Asymm Studio</a>
+        <a class="brand" href="/" aria-label="Asymm Studio home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span>Asymm Studio</span>
+        </a>
         <nav class="nav" aria-label="Primary">
-          <a href="/aesthetic-engine/">Aesthetic Engine</a>
-          <a href="/aesthetic-engine/components/">Components</a>
-          <a href="/bio-resonance/calibration/">Calibration</a>
-          <a href="/bio-resonance/gaze-cursor/">Gaze</a>
-          <a href="/bio-resonance/stress-adaptive/">Reader</a>
-          <a href="/manifesto/">Manifesto</a>
+          {navItems.map((item) => (
+            <a href={item.href} class:list={{ active: isActive(item.href) }} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          ))}
         </nav>
+        <details class="mobile-nav">
+          <summary aria-label="Open navigation menu">Menu</summary>
+          <nav aria-label="Mobile primary">
+            {navItems.map((item) => (
+              <a href={item.href} class:list={{ active: isActive(item.href) }} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+            ))}
+          </nav>
+        </details>
       </header>
       <main class="main">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          {breadcrumbs.map((crumb, index) => (
+            index === breadcrumbs.length - 1
+              ? <span aria-current="page">{crumb.label}</span>
+              : <a href={crumb.href}>{crumb.label}</a>
+          ))}
+        </nav>
         <slot />
       </main>
-      <footer class="site-footer">Bio-resonance demos process camera frames inside the browser tab.</footer>
+      <footer class="site-footer">
+        <p>Bio-resonance demos process camera frames inside the browser tab. Presence hashes are one-way identifiers, not stored biometrics.</p>
+        <nav aria-label="Footer">
+          <a href="/manifesto/">Manifesto</a>
+          <a href="/bio-resonance/calibration/">Privacy ritual</a>
+          <a href="/aesthetic-engine/">Aesthetic engine</a>
+        </nav>
+        <strong>Built with Asymmetrica</strong>
+      </footer>
+      <ThemeSwitcher client:load />
     </div>
   </body>
 </html>

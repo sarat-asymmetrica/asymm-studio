@@ -28,7 +28,7 @@
       lastTime = performance.now();
       animationFrame = requestAnimationFrame(update);
     } catch (error: unknown) {
-      cameraError = error instanceof Error ? error.message : 'Camera access could not be started.';
+      cameraError = 'Camera access is needed to run this live identity demo.';
     }
   }
 
@@ -64,7 +64,7 @@
   <div class="auth-surface">
     <p class="eyebrow">Presence</p>
     <h2 id="presence-title">{identity ? 'Unlocked' : 'Hold Steady'}</h2>
-    <div class="ring" role="progressbar" aria-label="Coherence" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(coherence * 100)}>
+    <div class="ring" style={`--coherence: ${coherence}`} role="progressbar" aria-label="Coherence" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(coherence * 100)}>
       <span>{Math.round(coherence * 100)}%</span>
     </div>
     {#if identity}
@@ -189,11 +189,54 @@
     font-size: 0.82rem;
   }
 
+  .presence-auth {
+    gap: var(--space-21, 21px);
+    padding: var(--space-21, 21px);
+    padding-bottom: var(--space-55, 55px);
+    border-radius: var(--radius-8, 8px);
+    font-family: var(--font-sans, "Asymm Sans", system-ui, sans-serif);
+  }
+
+  video {
+    border-radius: var(--radius-8, 8px);
+    background:
+      linear-gradient(90deg, transparent, rgb(255 255 255 / 0.1), transparent),
+      #272b31;
+    background-size: 233% 100%;
+    animation: skeleton-sheen 1600ms ease-in-out infinite;
+  }
+
+  .auth-surface {
+    gap: var(--space-13, 13px);
+  }
+
+  .ring {
+    width: 8.9rem;
+    height: 8.9rem;
+    border-width: var(--space-8, 8px);
+    border-radius: var(--radius-pill, 55rem);
+  }
+
+  .actions {
+    gap: var(--space-8, 8px);
+  }
+
+  button {
+    padding: var(--space-8, 8px) var(--space-13, 13px);
+    border-radius: var(--radius-5, 5px);
+  }
+
+  @keyframes skeleton-sheen {
+    0% { background-position: 144% 0; }
+    100% { background-position: -144% 0; }
+  }
+
   @media (max-width: 720px) {
     .presence-auth { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     * { scroll-behavior: auto; }
+    video { animation: none; }
   }
 </style>

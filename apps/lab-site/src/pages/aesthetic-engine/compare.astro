@@ -1,0 +1,19 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import RegionCompare from '../../components/RegionCompare.svelte';
+---
+
+<LabLayout title="Region Compare">
+  <section class="page-header">
+    <p class="eyebrow">Interactive</p>
+    <h1>Compare</h1>
+    <p>Render identical content through two aesthetic regions and see the presentation contract change live. The content stays fixed so palette, density, radius, and motion changes are impossible to miss.</p>
+    <div class="context-links">
+      <a class="button-link" href="/aesthetic-engine/explorer/">Tune a Seed</a>
+      <a class="button-link" href="/aesthetic-engine/">All Regions</a>
+    </div>
+  </section>
+  <div class="demo-panel">
+    <RegionCompare client:load />
+  </div>
+</LabLayout>

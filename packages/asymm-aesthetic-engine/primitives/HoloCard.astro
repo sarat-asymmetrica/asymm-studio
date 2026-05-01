@@ -1,0 +1,88 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  title?: string;
+}
+
+const { seed, title = 'Holo Card' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-secondary:${tokens.color.secondary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.large}`,
+  `--asymm-space:${tokens.geometry.spacing.md}`,
+  `--asymm-duration:${tokens.motion.duration.medium}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<article class="asymm-holo-card" style={style} data-seed={seed} aria-labelledby={`holo-title-${seed}`}>
+  <p class="asymm-holo-card__eyebrow">Refraction</p>
+  <h2 id={`holo-title-${seed}`}>{title}</h2>
+  <div class="asymm-holo-card__body">
+    <slot>A seed-derived shimmer moves through the same content structure.</slot>
+  </div>
+</article>
+
+<style>
+  .asymm-holo-card {
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--asymm-space) * 1.3);
+    border: 1px solid color-mix(in srgb, var(--asymm-primary), transparent 58%);
+    border-radius: var(--asymm-radius);
+    background: linear-gradient(135deg, var(--asymm-surface), var(--asymm-bg));
+    color: var(--asymm-text);
+  }
+
+  .asymm-holo-card::before {
+    position: absolute;
+    inset: -40%;
+    content: "";
+    background: linear-gradient(115deg, transparent, color-mix(in srgb, var(--asymm-secondary), transparent 66%), color-mix(in srgb, var(--asymm-accent), transparent 70%), transparent);
+    opacity: 0.78;
+    transform: translateX(-32%) rotate(8deg);
+    transition: transform var(--asymm-duration) var(--asymm-ease);
+    pointer-events: none;
+  }
+
+  .asymm-holo-card:hover::before {
+    transform: translateX(32%) rotate(8deg);
+  }
+
+  .asymm-holo-card > * {
+    position: relative;
+  }
+
+  .asymm-holo-card__eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--asymm-primary);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .asymm-holo-card h2 {
+    margin: 0 0 0.7rem;
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+  }
+
+  .asymm-holo-card__body {
+    color: var(--asymm-muted);
+    line-height: 1.65;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-holo-card::before {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

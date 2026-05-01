@@ -4,9 +4,14 @@ import CalibrationRitual from '../../../../../packages/asymm-bio-resonance/compo
 ---
 
 <LabLayout title="Calibration Ritual">
-  <section>
+  <section class="page-header">
     <p class="eyebrow">Bio-Resonance</p>
     <h1>Calibration</h1>
+    <p>The ritual asks for camera access only when live calibration starts. If the browser or sandbox blocks camera IO, the same flow runs with deterministic simulated gaze, pulse, and presence signals.</p>
+    <div class="context-links">
+      <a class="button-link" href="/bio-resonance/gaze-cursor/">Try Gaze</a>
+      <a class="button-link" href="/bio-resonance/stress-adaptive/">Open Reader</a>
+    </div>
   </section>
   <div class="demo-panel">
     <CalibrationRitual client:load />

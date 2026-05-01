@@ -1,0 +1,59 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  text?: string;
+}
+
+const { seed, text = 'Text Bloom' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.small}`,
+  `--asymm-space:${tokens.geometry.spacing.xs}`,
+  `--asymm-duration:${tokens.motion.duration.medium}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<span class="asymm-text-bloom" style={style} tabindex="0" aria-label={text} data-seed={seed}>
+  {text}
+</span>
+
+<style>
+  .asymm-text-bloom {
+    display: inline-block;
+    padding: calc(var(--asymm-space) * 0.35) calc(var(--asymm-space) * 0.6);
+    border-radius: var(--asymm-radius);
+    color: var(--asymm-text);
+    font-weight: 900;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    background-image: linear-gradient(90deg, var(--asymm-primary), var(--asymm-accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 0.12em;
+    transition: background-size var(--asymm-duration) var(--asymm-ease), color var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-text-bloom:hover,
+  .asymm-text-bloom:focus-visible {
+    color: var(--asymm-bg);
+    background-size: 100% 100%;
+    outline: none;
+  }
+
+  .asymm-text-bloom:focus-visible {
+    box-shadow: 0 0 0 0.16rem var(--asymm-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-text-bloom {
+      transition: none;
+    }
+  }
+</style>

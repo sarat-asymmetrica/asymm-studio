@@ -1,0 +1,19 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import SeedExplorer from '../../components/SeedExplorer.svelte';
+---
+
+<LabLayout title="Seed Explorer">
+  <section class="page-header">
+    <p class="eyebrow">Interactive</p>
+    <h1>Seed Explorer</h1>
+    <p>Move through quaternion seed space and watch tokens, regions, and primitive previews update live. Designers can inspect the CSS variables directly before turning a seed into a product theme.</p>
+    <div class="context-links">
+      <a class="button-link" href="/aesthetic-engine/compare/">Compare Regions</a>
+      <a class="button-link" href="/aesthetic-engine/components/">Component Catalog</a>
+    </div>
+  </section>
+  <div class="demo-panel">
+    <SeedExplorer client:load />
+  </div>
+</LabLayout>

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-const componentNames = ['CalibrationRitual', 'PresenceAuth', 'GazeCursor', 'StressAdaptiveReader'] as const;
+const componentNames = ['CalibrationRitual', 'PresenceAuth', 'GazeCursor', 'StressAdaptiveReader', 'ContinuousAuthGuard'] as const;
 const componentDir = fileURLToPath(new URL('.', import.meta.url));
 
 function readComponent(name: (typeof componentNames)[number]): string {

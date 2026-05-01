@@ -1,0 +1,100 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  label?: string;
+  checked?: boolean;
+}
+
+const { seed, label = 'Stone Switch', checked = false } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.large}`,
+  `--asymm-space:${tokens.geometry.spacing.sm}`,
+  `--asymm-texture:${tokens.geometry.textureOpacity}`,
+  `--asymm-duration:${tokens.motion.duration.fast}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<label class="asymm-stone-switch" style={style} data-seed={seed}>
+  <input type="checkbox" checked={checked} aria-label={label} />
+  <span class="asymm-stone-switch__track" aria-hidden="true">
+    <span class="asymm-stone-switch__thumb"></span>
+  </span>
+  <span class="asymm-stone-switch__label">{label}</span>
+</label>
+
+<style>
+  .asymm-stone-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--asymm-space);
+    color: var(--asymm-text);
+    cursor: pointer;
+  }
+
+  .asymm-stone-switch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .asymm-stone-switch__track {
+    position: relative;
+    width: 4.25rem;
+    height: 2.25rem;
+    border: 1px solid color-mix(in srgb, var(--asymm-primary), transparent 55%);
+    border-radius: var(--asymm-radius);
+    background: color-mix(in srgb, var(--asymm-surface), var(--asymm-primary) 8%);
+    overflow: hidden;
+  }
+
+  .asymm-stone-switch__track::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: repeating-linear-gradient(35deg, transparent 0 0.4rem, color-mix(in srgb, var(--asymm-primary), transparent 84%) 0.4rem 0.48rem);
+    opacity: var(--asymm-texture);
+  }
+
+  .asymm-stone-switch__thumb {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    z-index: 1;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: var(--asymm-radius);
+    background: var(--asymm-primary);
+    transition: transform var(--asymm-duration) var(--asymm-ease), background var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-stone-switch input:checked + .asymm-stone-switch__track .asymm-stone-switch__thumb {
+    background: var(--asymm-accent);
+    transform: translateX(2rem);
+  }
+
+  .asymm-stone-switch input:focus-visible + .asymm-stone-switch__track {
+    outline: 0.18rem solid var(--asymm-accent);
+    outline-offset: 0.18rem;
+  }
+
+  .asymm-stone-switch__label {
+    color: var(--asymm-muted);
+    font-weight: 800;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-stone-switch__thumb {
+      transition: none;
+    }
+  }
+</style>

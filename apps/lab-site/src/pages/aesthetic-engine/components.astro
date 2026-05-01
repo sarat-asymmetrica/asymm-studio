@@ -5,10 +5,14 @@ const components = ['Hero', 'Navbar', 'Card', 'Button', 'Modal', 'Pricing', 'Tes
 ---
 
 <LabLayout title="Components">
-  <section>
+  <section class="page-header">
     <p class="eyebrow">Variation Catalog</p>
     <h1>Components</h1>
-    <p>Structural components stay stable while seeded CSS variables change their presence.</p>
+    <p>Structural components stay stable while seeded CSS variables change their presence. The catalog documents the vocabulary that the engine can later expand without asking each product surface to invent its own UI grammar.</p>
+    <div class="context-links">
+      <a class="button-link" href="/aesthetic-engine/">Back to DNA</a>
+      <a class="button-link" href="/aesthetic-engine/explorer/">Test a Seed</a>
+    </div>
   </section>
   <section class="component-grid" aria-label="Seeded component samples">
     {components.map((component, index) => (

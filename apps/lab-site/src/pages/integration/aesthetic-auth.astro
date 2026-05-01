@@ -1,0 +1,19 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import AestheticAuth from '../../components/AestheticAuth.svelte';
+---
+
+<LabLayout title="Aesthetic Auth">
+  <section class="page-header">
+    <p class="eyebrow">Integration</p>
+    <h1>Aesthetic Auth</h1>
+    <p>The lab app is the only place the aesthetic engine and bio-resonance substrate meet. Pick a region, then run the same browser-local calibration ritual through that visual contract.</p>
+    <div class="context-links">
+      <a class="button-link" href="/aesthetic-engine/compare/">Compare Regions</a>
+      <a class="button-link" href="/bio-resonance/calibration/">Standalone Ritual</a>
+    </div>
+  </section>
+  <div class="demo-panel">
+    <AestheticAuth client:load />
+  </div>
+</LabLayout>

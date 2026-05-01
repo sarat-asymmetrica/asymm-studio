@@ -4,9 +4,14 @@ import GazeCursor from '../../../../../packages/asymm-bio-resonance/components/G
 ---
 
 <LabLayout title="Gaze Cursor">
-  <section>
+  <section class="page-header">
     <p class="eyebrow">Bio-Resonance</p>
     <h1>Gaze Cursor</h1>
+    <p>Attention becomes a spatial pointer. Live mode estimates gaze locally from face landmarks; simulated mode follows a scripted path so the reader behavior can be evaluated without camera permission.</p>
+    <div class="context-links">
+      <a class="button-link" href="/bio-resonance/calibration/">Calibrate First</a>
+      <a class="button-link" href="/bio-resonance/continuous-auth/">Presence Guard</a>
+    </div>
   </section>
   <div class="demo-panel">
     <GazeCursor client:load />

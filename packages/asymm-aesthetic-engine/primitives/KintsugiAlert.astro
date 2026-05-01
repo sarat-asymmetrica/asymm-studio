@@ -1,0 +1,84 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  tone?: 'info' | 'warning' | 'danger';
+  title?: string;
+}
+
+const { seed, tone = 'info', title = 'Kintsugi Alert' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const accent = tone === 'danger' ? tokens.color.danger : tone === 'warning' ? tokens.color.accent : tokens.color.primary;
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${accent}`,
+  `--asymm-radius:${tokens.geometry.radius.medium}`,
+  `--asymm-space:${tokens.geometry.spacing.md}`,
+  `--asymm-duration:${tokens.motion.duration.fast}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<section class="asymm-kintsugi-alert" style={style} role="status" aria-label={title} data-seed={seed} data-tone={tone}>
+  <span class="asymm-kintsugi-alert__line" aria-hidden="true"></span>
+  <div>
+    <h2>{title}</h2>
+    <div class="asymm-kintsugi-alert__body">
+      <slot>Attention is repaired with a seed-derived accent and clear semantic status.</slot>
+    </div>
+  </div>
+</section>
+
+<style>
+  .asymm-kintsugi-alert {
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.5rem 1fr;
+    gap: var(--asymm-space);
+    overflow: hidden;
+    padding: var(--asymm-space);
+    border: 1px solid color-mix(in srgb, var(--asymm-accent), transparent 54%);
+    border-radius: var(--asymm-radius);
+    background: linear-gradient(135deg, var(--asymm-surface), var(--asymm-bg));
+    color: var(--asymm-text);
+  }
+
+  .asymm-kintsugi-alert__line {
+    display: block;
+    min-height: 100%;
+    border-radius: var(--asymm-radius);
+    background: var(--asymm-accent);
+    box-shadow: 0 0 1.5rem color-mix(in srgb, var(--asymm-accent), transparent 62%);
+    transform-origin: top;
+    transition: transform var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-kintsugi-alert:hover .asymm-kintsugi-alert__line {
+    transform: scaleY(1.08);
+  }
+
+  .asymm-kintsugi-alert h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.25rem;
+  }
+
+  .asymm-kintsugi-alert__body {
+    color: var(--asymm-muted);
+    line-height: 1.55;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-kintsugi-alert__line {
+      transition: none;
+    }
+
+    .asymm-kintsugi-alert:hover .asymm-kintsugi-alert__line {
+      transform: none;
+    }
+  }
+</style>

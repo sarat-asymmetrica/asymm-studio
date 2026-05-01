@@ -1,0 +1,77 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  items?: readonly string[];
+}
+
+const { seed, items = ['North', 'East', 'South', 'West'] } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.medium}`,
+  `--asymm-space:${tokens.geometry.spacing.md}`,
+  `--asymm-gap:${tokens.geometry.spacing.lg}`,
+  `--asymm-duration:${tokens.motion.duration.fast}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<section class="asymm-gravity-grid" style={style} data-seed={seed} aria-label="Seed-derived gravity grid">
+  {items.map((item, index) => (
+    <article class="asymm-gravity-grid__item" style={`--asymm-index:${index + 1}`}>
+      <strong>{item}</strong>
+      <span>Pull {index + 1}</span>
+    </article>
+  ))}
+</section>
+
+<style>
+  .asymm-gravity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--asymm-gap);
+    padding: var(--asymm-space);
+    border-radius: var(--asymm-radius);
+    background: var(--asymm-bg);
+    color: var(--asymm-text);
+  }
+
+  .asymm-gravity-grid__item {
+    min-height: 8rem;
+    padding: var(--asymm-space);
+    border: 1px solid color-mix(in srgb, var(--asymm-primary), transparent 62%);
+    border-radius: var(--asymm-radius);
+    background: var(--asymm-surface);
+    transform: translateY(calc((var(--asymm-index) - 2) * 0.18rem));
+    transition: transform var(--asymm-duration) var(--asymm-ease), border-color var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-gravity-grid__item:hover {
+    border-color: var(--asymm-accent);
+    transform: translateY(0);
+  }
+
+  .asymm-gravity-grid__item strong,
+  .asymm-gravity-grid__item span {
+    display: block;
+  }
+
+  .asymm-gravity-grid__item span {
+    margin-top: 0.45rem;
+    color: var(--asymm-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-gravity-grid__item {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

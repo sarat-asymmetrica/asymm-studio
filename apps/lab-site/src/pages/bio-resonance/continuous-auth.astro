@@ -1,0 +1,100 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import ContinuousAuthGuard from '../../../../../packages/asymm-bio-resonance/components/ContinuousAuthGuard.svelte';
+---
+
+<LabLayout title="Continuous Auth Guard">
+  <section class="page-header">
+    <p class="eyebrow">Bio-Resonance</p>
+    <h1>Guard</h1>
+    <p>The guard demonstrates a workspace that stays readable while presence is stable and blurs when coherence drops. It is a UI pattern, not a claim that client-rendered content is cryptographically hidden.</p>
+    <div class="context-links">
+      <a class="button-link" href="/bio-resonance/calibration/">Run Ritual</a>
+      <a class="button-link" href="/manifesto/">Read Limitations</a>
+    </div>
+  </section>
+  <div class="demo-panel">
+    <ContinuousAuthGuard client:load>
+      <section class="banking-workspace" aria-label="Sample banking dashboard">
+        <header>
+          <p class="eyebrow">Private Banking</p>
+          <h2>Operating Account</h2>
+          <strong>$482,910.44</strong>
+        </header>
+        <div class="bank-grid">
+          <article>
+            <span>Pending Wire</span>
+            <strong>$24,000</strong>
+            <p>Vendor settlement awaiting second approval.</p>
+          </article>
+          <article>
+            <span>Risk Score</span>
+            <strong>Low</strong>
+            <p>No anomalous transaction pattern in the last 24 hours.</p>
+          </article>
+          <article>
+            <span>Cards Active</span>
+            <strong>7</strong>
+            <p>Executive cards are within policy limits.</p>
+          </article>
+        </div>
+      </section>
+    </ContinuousAuthGuard>
+  </div>
+</LabLayout>
+
+<style>
+  .banking-workspace {
+    min-height: 360px;
+    padding: var(--space-21);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .banking-workspace header {
+    margin-bottom: var(--space-21);
+  }
+
+  .banking-workspace h2 {
+    max-width: none;
+    margin: 0 0 var(--space-8);
+  }
+
+  .banking-workspace header strong {
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1;
+  }
+
+  .bank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-13);
+  }
+
+  .bank-grid article {
+    min-height: 14.4rem;
+    padding: var(--space-21);
+    border: var(--space-1) solid var(--line);
+    border-radius: var(--radius-8);
+    background: var(--surface);
+  }
+
+  .bank-grid span {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .bank-grid strong {
+    display: block;
+    margin: var(--space-8) 0;
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 47.5rem) {
+    .bank-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

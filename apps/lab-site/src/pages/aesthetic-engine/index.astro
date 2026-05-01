@@ -14,10 +14,15 @@ const regions = [
 ---
 
 <LabLayout title="Aesthetic Engine">
-  <section>
+  <section class="page-header">
     <p class="eyebrow">Design DNA</p>
     <h1>Aesthetic Engine</h1>
-    <p>Eight disjoint quaternion regions generate color, typography, motion, geometry, spacing, and component variation.</p>
+    <p>Eight disjoint quaternion regions generate color, typography, motion, geometry, spacing, and component variation. This page is the overview; the explorer and comparison tools show the same engine moving live.</p>
+    <div class="context-links">
+      <a class="button-link" href="/aesthetic-engine/explorer/">Open Explorer</a>
+      <a class="button-link" href="/aesthetic-engine/compare/">Compare Regions</a>
+      <a class="button-link" href="/aesthetic-engine/components/">View Components</a>
+    </div>
   </section>
   <section class="dna-grid" aria-label="Aesthetic regions">
     {regions.map(([name, background, ink, accent]) => (

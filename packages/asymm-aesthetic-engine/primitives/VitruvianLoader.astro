@@ -1,0 +1,77 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  label?: string;
+}
+
+const { seed, label = 'Loading' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.large}`,
+  `--asymm-space:${tokens.geometry.spacing.sm}`,
+  `--asymm-duration:${tokens.motion.duration.medium}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<div class="asymm-vitruvian-loader" style={style} data-seed={seed} role="status" aria-label={label}>
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="36"></circle>
+    <path d="M50 14 L72 72 L20 36 L80 36 L28 72 Z"></path>
+  </svg>
+  <span>{label}</span>
+</div>
+
+<style>
+  .asymm-vitruvian-loader {
+    display: inline-grid;
+    gap: var(--asymm-space);
+    place-items: center;
+    padding: var(--asymm-space);
+    border-radius: var(--asymm-radius);
+    color: var(--asymm-text);
+  }
+
+  .asymm-vitruvian-loader svg {
+    width: 5rem;
+    height: 5rem;
+    color: var(--asymm-primary);
+    animation: asymm-vitruvian-spin var(--asymm-duration) var(--asymm-ease) infinite;
+  }
+
+  .asymm-vitruvian-loader circle,
+  .asymm-vitruvian-loader path {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4;
+  }
+
+  .asymm-vitruvian-loader path {
+    color: var(--asymm-accent);
+  }
+
+  .asymm-vitruvian-loader span {
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  @keyframes asymm-vitruvian-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-vitruvian-loader svg {
+      animation: none;
+    }
+  }
+</style>

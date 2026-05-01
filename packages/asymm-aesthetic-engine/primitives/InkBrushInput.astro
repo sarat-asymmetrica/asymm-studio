@@ -1,0 +1,73 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  label?: string;
+  name?: string;
+  placeholder?: string;
+}
+
+const { seed, label = 'Ink Brush Input', name = `ink-${seed}`, placeholder = 'Type with intention' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-muted:${tokens.color.mutedText}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.small}`,
+  `--asymm-space:${tokens.geometry.spacing.sm}`,
+  `--asymm-duration:${tokens.motion.duration.fast}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<label class="asymm-ink-input" style={style} data-seed={seed}>
+  <span>{label}</span>
+  <input name={name} placeholder={placeholder} aria-label={label} />
+</label>
+
+<style>
+  .asymm-ink-input {
+    display: grid;
+    gap: calc(var(--asymm-space) * 0.6);
+    color: var(--asymm-text);
+  }
+
+  .asymm-ink-input span {
+    color: var(--asymm-muted);
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+
+  .asymm-ink-input input {
+    width: 100%;
+    min-height: 3rem;
+    padding: var(--asymm-space) 0;
+    border: 0;
+    border-bottom: 0.18rem solid var(--asymm-primary);
+    border-radius: 0;
+    background: transparent;
+    color: var(--asymm-text);
+    font: inherit;
+    transition: border-color var(--asymm-duration) var(--asymm-ease), box-shadow var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-ink-input input::placeholder {
+    color: var(--asymm-muted);
+  }
+
+  .asymm-ink-input input:focus {
+    border-color: var(--asymm-accent);
+    box-shadow: 0 0.45rem 0 -0.35rem var(--asymm-accent);
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-ink-input input {
+      transition: none;
+    }
+  }
+</style>

@@ -1,4 +1,7 @@
 import type { Landmark } from '../signals/index.js';
+import { createFaceMeshDetector } from './factory.js';
+import type { FaceMeshDetector, FaceMeshDetection } from './mock-facemesh.js';
+import type { FaceMeshFactoryConfig, FaceMeshFactoryResult } from './factory.js';
 
 export const LANDMARK_REGIONS = {
   FOREHEAD: [10, 67, 69, 104, 108, 109, 151, 299, 297, 333, 337, 338],
@@ -16,9 +19,13 @@ export interface FaceMeshConfig {
   readonly gestureDeltaThreshold: number;
 }
 
+export type FaceMeshIntegrationConfig = FaceMeshConfig & Omit<FaceMeshFactoryConfig, 'maxFaces'>;
+
 export interface FaceMeshState {
   readonly faceDetected: boolean;
   readonly landmarks: readonly Landmark[] | null;
+  readonly detectorMode: 'live' | 'mock' | null;
+  readonly detectorMessage: string | null;
   readonly blink: {
     readonly totalBlinks: number;
     readonly blinkRate: number;
@@ -37,7 +44,10 @@ interface PoseSample {
 }
 
 export class FaceMeshIntegration {
-  private readonly config: FaceMeshConfig;
+  private readonly config: FaceMeshIntegrationConfig;
+  private detector: FaceMeshDetector | null;
+  private detectorMode: 'live' | 'mock' | null = null;
+  private detectorMessage: string | null = null;
   private landmarks: readonly Landmark[] | null = null;
   private blinkFrameCounter = 0;
   private totalBlinks = 0;
@@ -47,8 +57,29 @@ export class FaceMeshIntegration {
   private lastGesture: 'nod' | 'shake' | null = null;
   private gestureConfidence = 0;
 
-  public constructor(config: Partial<FaceMeshConfig> = {}) {
+  public constructor(config: Partial<FaceMeshIntegrationConfig> = {}, detector: FaceMeshDetector | null = null, detectorMessage: string | null = null) {
     this.config = { maxFaces: 1, earThreshold: 0.21, blinkConsecutiveFrames: 2, gestureDeltaThreshold: 0.02, ...config };
+    this.detector = detector;
+    this.detectorMode = detector?.mode ?? null;
+    this.detectorMessage = detectorMessage;
+  }
+
+  public async initializeDetector(): Promise<FaceMeshFactoryResult> {
+    const result = await createFaceMeshDetector(this.config);
+    this.detector = result.detector;
+    this.detectorMode = result.mode;
+    this.detectorMessage = result.reason;
+    return result;
+  }
+
+  public async processFrame(frame: TexImageSource | null, timestampMs: number = Date.now()): Promise<FaceMeshState> {
+    if (!this.detector) await this.initializeDetector();
+    const detection: FaceMeshDetection = this.detector
+      ? await this.detector.processFrame(frame, { timestampMs })
+      : { mode: 'mock', landmarks: null, message: 'Face tracking is unavailable.' };
+    this.detectorMode = detection.mode;
+    this.detectorMessage = detection.message;
+    return this.processResults(detection.landmarks);
   }
 
   public processResults(landmarks: readonly Landmark[] | null): FaceMeshState {
@@ -81,7 +112,14 @@ export class FaceMeshIntegration {
   }
 
   public getState(): FaceMeshState {
-    return { faceDetected: this.landmarks !== null, landmarks: this.landmarks, blink: { totalBlinks: this.totalBlinks, blinkRate: this.blinkRate, isBlinking: this.blinkFrameCounter >= this.config.blinkConsecutiveFrames }, gesture: { type: this.lastGesture, confidence: this.gestureConfidence } };
+    return { faceDetected: this.landmarks !== null, landmarks: this.landmarks, detectorMode: this.detectorMode, detectorMessage: this.detectorMessage, blink: { totalBlinks: this.totalBlinks, blinkRate: this.blinkRate, isBlinking: this.blinkFrameCounter >= this.config.blinkConsecutiveFrames }, gesture: { type: this.lastGesture, confidence: this.gestureConfidence } };
+  }
+
+  public close(): void {
+    this.detector?.close();
+    this.detector = null;
+    this.detectorMode = null;
+    this.detectorMessage = null;
   }
 
   private detectBlink(): void {
@@ -146,6 +184,7 @@ export class FaceMeshIntegration {
   }
 }
 
-export async function createFaceMeshIntegration(config: Partial<FaceMeshConfig> = {}): Promise<FaceMeshIntegration> {
-  return new FaceMeshIntegration(config);
+export async function createFaceMeshIntegration(config: Partial<FaceMeshIntegrationConfig> = {}): Promise<FaceMeshIntegration> {
+  const result = await createFaceMeshDetector(config);
+  return new FaceMeshIntegration(config, result.detector, result.reason);
 }

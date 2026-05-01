@@ -1,0 +1,76 @@
+---
+import { deriveAll, SeedToQuaternion } from '../index.js';
+
+interface Props {
+  seed: number;
+  label?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const { seed, label = 'Aging Button', type = 'button' } = Astro.props;
+const tokens = deriveAll(SeedToQuaternion(seed));
+const style = [
+  `--asymm-bg:${tokens.color.background}`,
+  `--asymm-surface:${tokens.color.surface}`,
+  `--asymm-text:${tokens.color.text}`,
+  `--asymm-primary:${tokens.color.primary}`,
+  `--asymm-accent:${tokens.color.accent}`,
+  `--asymm-radius:${tokens.geometry.radius.small}`,
+  `--asymm-space:${tokens.geometry.spacing.sm}`,
+  `--asymm-texture:${tokens.geometry.textureOpacity}`,
+  `--asymm-duration:${tokens.motion.duration.fast}ms`,
+  `--asymm-ease:${tokens.motion.easing.css}`
+].join(';');
+---
+
+<button class="asymm-aging-button" style={style} type={type} aria-label={label} data-seed={seed}>
+  <span>{label}</span>
+</button>
+
+<style>
+  .asymm-aging-button {
+    position: relative;
+    min-height: 2.75rem;
+    padding: var(--asymm-space) calc(var(--asymm-space) * 1.7);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--asymm-primary), var(--asymm-text) 18%);
+    border-radius: var(--asymm-radius);
+    background: var(--asymm-primary);
+    color: var(--asymm-bg);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 800;
+    transition: transform var(--asymm-duration) var(--asymm-ease), filter var(--asymm-duration) var(--asymm-ease);
+  }
+
+  .asymm-aging-button::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: repeating-linear-gradient(120deg, transparent 0 0.45rem, color-mix(in srgb, var(--asymm-accent), transparent 82%) 0.45rem 0.5rem);
+    opacity: var(--asymm-texture);
+    pointer-events: none;
+  }
+
+  .asymm-aging-button:hover,
+  .asymm-aging-button:focus-visible {
+    filter: saturate(1.08);
+    transform: translateY(-0.12rem);
+  }
+
+  .asymm-aging-button:focus-visible {
+    outline: 0.18rem solid var(--asymm-accent);
+    outline-offset: 0.18rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asymm-aging-button {
+      transition: none;
+    }
+
+    .asymm-aging-button:hover,
+    .asymm-aging-button:focus-visible {
+      transform: none;
+    }
+  }
+</style>
