@@ -1,0 +1,227 @@
+{
+  "metadata": {
+    "source": "Da Vinci Atelier - Design System Showcase",
+    "location": "asymm_mathematical_organism/design_system/showcase/davinci_atelier/",
+    "scanned_date": "2025-11-29",
+    "total_components": 27
+  },
+  "components": [
+    {
+      "name": "HoloCard",
+      "file": "src/lib/components/HoloCard.svelte",
+      "category": "interactive-3d",
+      "description": "3D holographic card with tilt and glare effect"
+    },
+    {
+      "name": "VoidTerminal",
+      "file": "src/lib/components/VoidTerminal.svelte",
+      "category": "cyberpunk",
+      "description": "Cyberpunk terminal display with fog and scanlines"
+    },
+    {
+      "name": "TextBloom",
+      "file": "src/lib/components/TextBloom.svelte",
+      "category": "animation-text",
+      "description": "Character-by-character text reveal with random decoding"
+    },
+    {
+      "name": "GravityGrid",
+      "file": "src/lib/components/GravityGrid.svelte",
+      "category": "physics-interactive",
+      "description": "Interactive physics grid distorting around cursor"
+    },
+    {
+      "name": "ShojiModal",
+      "file": "src/lib/components/ShojiModal.svelte",
+      "category": "modal-dialog",
+      "description": "Japanese Shoji-inspired modal with paper texture"
+    },
+    {
+      "name": "VitruvianLoader",
+      "file": "src/lib/components/VitruvianLoader.svelte",
+      "category": "3d-loader",
+      "description": "3D sacred geometry loader with rotating polyhedra"
+    },
+    {
+      "name": "StoneSwitch",
+      "file": "src/lib/components/StoneSwitch.svelte",
+      "category": "form-toggle",
+      "description": "Tactile stone toggle with spring motion"
+    },
+    {
+      "name": "ToastContainer",
+      "file": "src/lib/components/ToastContainer.svelte",
+      "category": "notification",
+      "description": "Toast notification container"
+    },
+    {
+      "name": "FallingLeafToast",
+      "file": "src/lib/components/FallingLeafToast.svelte",
+      "category": "notification",
+      "description": "Individual toast with leaf animation"
+    },
+    {
+      "name": "AgingButton",
+      "file": "src/lib/components/AgingButton.svelte",
+      "category": "interactive-button",
+      "description": "Button showing digital patina over clicks"
+    },
+    {
+      "name": "ChronosDial",
+      "file": "src/lib/components/ChronosDial.svelte",
+      "category": "temporal-ui",
+      "description": "Time display with dilation visualization"
+    },
+    {
+      "name": "InkBrushInput",
+      "file": "src/lib/components/InkBrushInput.svelte",
+      "category": "form-input",
+      "description": "Text input with animated ink stroke"
+    },
+    {
+      "name": "KineticBlock",
+      "file": "src/lib/components/KineticBlock.svelte",
+      "category": "physics-interactive",
+      "description": "Draggable block with spring rotation"
+    },
+    {
+      "name": "KotoSlider",
+      "file": "src/lib/components/KotoSlider.svelte",
+      "category": "form-slider",
+      "description": "String slider with audio feedback"
+    },
+    {
+      "name": "BiomimeticChart",
+      "file": "src/lib/components/BiomimeticChart.svelte",
+      "category": "visualization",
+      "description": "L-System fractal plant chart"
+    },
+    {
+      "name": "KintsugiAlert",
+      "file": "src/lib/components/KintsugiAlert.svelte",
+      "category": "feedback",
+      "description": "Error alert with gold repair animation"
+    },
+    {
+      "name": "PastaHero",
+      "file": "src/lib/components/pasta/PastaHero.svelte",
+      "category": "hero-section",
+      "description": "E-commerce hero with signup"
+    },
+    {
+      "name": "FlourCursor",
+      "file": "src/lib/components/pasta/FlourCursor.svelte",
+      "category": "cursor-effect",
+      "description": "Flour particle cursor effect"
+    },
+    {
+      "name": "VoidPunkView",
+      "file": "src/lib/views/VoidPunkView.svelte",
+      "category": "view-page",
+      "description": "Cyberpunk component showcase"
+    },
+    {
+      "name": "WabiSabiView",
+      "file": "src/lib/views/WabiSabiView.svelte",
+      "category": "view-page",
+      "description": "Wabi-Sabi component showcase"
+    },
+    {
+      "name": "PastaCollectiveView",
+      "file": "src/lib/views/PastaCollectiveView.svelte",
+      "category": "view-page",
+      "description": "Pasta e-commerce view"
+    },
+    {
+      "name": "PastaLogo",
+      "file": "src/lib/components/pasta/PastaLogo.svelte",
+      "category": "branding",
+      "description": "Animated pasta logo"
+    },
+    {
+      "name": "PastaMenu",
+      "file": "src/lib/components/pasta/PastaMenu.svelte",
+      "category": "product-menu",
+      "description": "Menu section"
+    },
+    {
+      "name": "PastaAbout",
+      "file": "src/lib/components/pasta/PastaAbout.svelte",
+      "category": "content",
+      "description": "About section"
+    },
+    {
+      "name": "PastaIngredients",
+      "file": "src/lib/components/pasta/PastaIngredients.svelte",
+      "category": "content",
+      "description": "Ingredients showcase"
+    },
+    {
+      "name": "PastaGarden",
+      "file": "src/lib/components/pasta/PastaGarden.svelte",
+      "category": "background",
+      "description": "Garden background"
+    },
+    {
+      "name": "PastaDelivery",
+      "file": "src/lib/components/pasta/PastaDelivery.svelte",
+      "category": "content",
+      "description": "Delivery info"
+    },
+    {
+      "name": "PastaContact",
+      "file": "src/lib/components/pasta/PastaContact.svelte",
+      "category": "content",
+      "description": "Contact section"
+    }
+  ],
+  "key_patterns": {
+    "animation_techniques": [
+      "Svelte Spring motion",
+      "requestAnimationFrame loops",
+      "CSS keyframes",
+      "SVG morphing",
+      "Canvas particles"
+    ],
+    "interaction_patterns": [
+      "Mouse tracking",
+      "Drag constraints",
+      "Focus/blur events",
+      "Sound feedback",
+      "Spring physics"
+    ],
+    "visual_patterns": [
+      "Layered opacity",
+      "Texture overlays",
+      "Radial gradients",
+      "Scanlines",
+      "Blend modes"
+    ],
+    "dependencies": [
+      "Svelte 5",
+      "Threlte",
+      "Lucide-Svelte",
+      "svelte-motion",
+      "Tailwind CSS"
+    ]
+  },
+  "color_systems": {
+    "wabi_sabi": {
+      "paper": "#f4f1ea",
+      "ink": "#2c241b",
+      "gold": "#c5a059",
+      "stone": "#a8a29e"
+    },
+    "void_punk": {
+      "void": "#1a1816",
+      "black": "#050505",
+      "cyan": "#00f0ff",
+      "gold": "#c5a059"
+    },
+    "pasta": {
+      "cream": "#FAFAFA",
+      "terracotta": "#D95D39",
+      "sage": "#A3B18A"
+    }
+  }
+}

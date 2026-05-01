@@ -1,0 +1,52 @@
+{
+    "void_terminal": {
+        "description": "Cyberpunk-style code container with fog and scanlines",
+        "inputs": [
+            "content"
+        ],
+        "files": {
+            "html": "components/void_terminal/template.html",
+            "css": "components/void_terminal/style.css"
+        }
+    },
+    "kintsugi_alert": {
+        "description": "Wabi-Sabi notification box with interactive gold repair animation",
+        "inputs": [
+            "content",
+            "type_label"
+        ],
+        "files": {
+            "html": "components/kintsugi_alert/template.html",
+            "css": "components/kintsugi_alert/style.css",
+            "js": "components/kintsugi_alert/script.js"
+        }
+    },
+    "gravity_grid": {
+        "description": "Interactive physics grid that distorts around mouse cursor",
+        "inputs": [
+            "content"
+        ],
+        "files": {
+            "html": "components/gravity_grid/template.html",
+            "css": "components/gravity_grid/style.css",
+            "js": "components/gravity_grid/script.js"
+        }
+    },
+    "shoji_modal": {
+        "description": "Japanese-style modal overlay with paper texture and wood frame",
+        "inputs": [],
+        "files": {
+            "html": "components/shoji_modal/template.html",
+            "css": "components/shoji_modal/style.css",
+            "js": "components/shoji_modal/script.js"
+        }
+    },
+    "text_bloom": {
+        "description": "Text animation that decodes random characters into final text",
+        "inputs": [],
+        "files": {
+            "css": "components/text_bloom/style.css",
+            "js": "components/text_bloom/script.js"
+        }
+    }
+}
